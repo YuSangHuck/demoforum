@@ -20,4 +20,11 @@ public class QuestionService {
     public Question getQusetion(Long id) {
         return questionRepository.findById(id).orElseThrow(() -> new DataNotFoundException("question not found"));
     }
+
+    public void create(String subject, String content) {
+        questionRepository.save(Question.builder()
+                .subject(subject)
+                .content(content)
+                .build());
+    }
 }
