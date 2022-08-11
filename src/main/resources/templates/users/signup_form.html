@@ -13,7 +13,7 @@
   <form th:action="@{/users/signup}" th:object="${userFormDto}" method="post">
     <div th:replace="common/form_errors :: formErrorsFragment"></div>
     <div class="mb-3">
-      <label for="username" class="form-label">사용자ID</label>
+      <label for="username" class="form-label">사용자 ID</label>
       <input type="text" th:field="*{username}" class="form-control">
     </div>
     <div class="mb-3">

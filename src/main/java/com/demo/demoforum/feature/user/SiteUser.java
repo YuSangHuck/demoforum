@@ -19,10 +19,10 @@ import java.util.Objects;
         @UniqueConstraint(name = "uk_username",columnNames = {"username"}),
         @UniqueConstraint(name = "uk_email",columnNames = {"email"})
 })
-public class User extends BaseEntity {
+public class SiteUser extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
-    @SequenceGenerator(name = "user_id_generator", sequenceName = "user_id_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "siteUser_id_generator")
+    @SequenceGenerator(name = "siteUser_id_generator", sequenceName = "siteUser_id_sequence")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -39,8 +39,8 @@ public class User extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
+        SiteUser siteUser = (SiteUser) o;
+        return id != null && Objects.equals(id, siteUser.id);
     }
 
     @Override

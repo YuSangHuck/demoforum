@@ -12,7 +12,7 @@ public class UserService {
 
     public void join(String email, String password, String username) {
         userRepository.save(
-                User.builder()
+                SiteUser.builder()
                         .email(email)
                         .password(passwordEncoder.encode(password))
                         .username(username)
