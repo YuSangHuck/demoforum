@@ -1,5 +1,6 @@
 package com.demo.demoforum.feature.question;
 
+import com.demo.demoforum.feature.answer.AnswerFormDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class QuestionController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable Long id) {
+    public String detail(Model model, @PathVariable Long id, AnswerFormDto answerFormDto) {
         Question qusetion = questionService.getQusetion(id);
         model.addAttribute("question", qusetion);
         return "questions/detail";
