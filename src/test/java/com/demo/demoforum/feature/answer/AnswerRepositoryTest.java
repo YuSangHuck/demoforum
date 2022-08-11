@@ -39,7 +39,7 @@ class AnswerRepositoryTest {
     public void 답변생성() {
         // given
         Answer answer = Answer.builder()
-                .Content("답변입니다")
+                .content("답변입니다")
                 .question(_question)
                 .build();
 
@@ -68,7 +68,7 @@ class AnswerRepositoryTest {
         List<Answer> answers = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Answer answer = Answer.builder()
-                    .Content("답변" + i)
+                    .content("답변" + i)
                     .question(_question)
                     .build();
             answerRepository.save(answer);

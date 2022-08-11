@@ -1,5 +1,6 @@
 package com.demo.demoforum.feature.user;
 
+import com.demo.demoforum.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,10 @@ public class UserService {
                         .username(username)
                         .build()
         );
+    }
+
+    public SiteUser searchUser(String username) {
+        return userRepository.findByUsername(username).
+                orElseThrow(() -> new DataNotFoundException("siteuser not found"));
     }
 }

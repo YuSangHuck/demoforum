@@ -2,6 +2,7 @@ package com.demo.demoforum.feature.question;
 
 import com.demo.demoforum.entity.BaseEntity;
 import com.demo.demoforum.feature.answer.Answer;
+import com.demo.demoforum.feature.user.SiteUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +38,10 @@ public class Question extends BaseEntity {
 //    If it is not supposed to be settable during building, make the field final.
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private final List<Answer> answers = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_question_to_author"))
+    private SiteUser author;
 
     @Override
     public boolean equals(Object o) {

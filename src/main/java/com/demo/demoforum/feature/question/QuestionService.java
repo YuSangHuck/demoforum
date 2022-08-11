@@ -1,6 +1,7 @@
 package com.demo.demoforum.feature.question;
 
 import com.demo.demoforum.exception.DataNotFoundException;
+import com.demo.demoforum.feature.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,10 +34,11 @@ public class QuestionService {
         return questionRepository.findById(id).orElseThrow(() -> new DataNotFoundException("question not found"));
     }
 
-    public void create(String subject, String content) {
+    public void create(String subject, String content, SiteUser author) {
         questionRepository.save(Question.builder()
                 .subject(subject)
                 .content(content)
+                .author(author)
                 .build());
     }
 }

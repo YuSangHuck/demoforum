@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" layout:decorate="~{common/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" layout:decorate="~{common/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <title>질문 상세</title>
 </head>
@@ -35,7 +38,8 @@
     <form th:action="@{|/answers/create/${question.id}|}" th:object="${answerFormDto}" method="post" class="my-3">
         <div th:replace="common/form_errors :: formErrorsFragment"></div>
         <label for="content"></label>
-        <textarea th:field="*{content}" name="content" id="content" rows="10" class="form-control"></textarea>
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" name="content" rows="10" class="form-control"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" name="content" rows="10" class="form-control"></textarea>
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
 </div>

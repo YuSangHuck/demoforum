@@ -1,6 +1,8 @@
 package com.demo.demoforum.feature.user;
 
 import com.demo.demoforum.entity.BaseEntity;
+import com.demo.demoforum.feature.answer.Answer;
+import com.demo.demoforum.feature.question.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Builder
@@ -34,6 +38,12 @@ public class SiteUser extends BaseEntity {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "author")
+    private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author")
+    private List<Answer> answers = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

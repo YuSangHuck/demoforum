@@ -2,6 +2,7 @@ package com.demo.demoforum.feature.answer;
 
 import com.demo.demoforum.entity.BaseEntity;
 import com.demo.demoforum.feature.question.Question;
+import com.demo.demoforum.feature.user.SiteUser;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -21,11 +22,15 @@ public class Answer extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String Content;
+    private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "question_id", nullable = false, foreignKey = @ForeignKey(name = "fk_answer_to_question"))
     private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_answer_to_author"))
+    private SiteUser author;
 
     @Override
     public boolean equals(Object o) {
@@ -48,6 +53,6 @@ public class Answer extends BaseEntity {
                 "lastModifiedBy = " + lastModifiedBy + ", " +
                 "createdDate = " + createdDate + ", " +
                 "lastModifiedDate = " + lastModifiedDate + ", " +
-                "Content = " + Content + ")";
+                "Content = " + content + ")";
     }
 }
