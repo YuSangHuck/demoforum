@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" layout:decorate="~{common/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>질문 등록하기</title>
 </head>
 <div layout:fragment="content" class="container">
     <h5 class="my-3 border-bottom pb-2">질문등록</h5>
     <form th:action="@{/questions/create}" th:object="${questionFormDto}" method="post">
-        <div th:replace="form_errors :: formErrorsFragment"></div>
+        <div th:replace="common/form_errors :: formErrorsFragment"></div>
         <div class="mb-3">
             <label for="subject" class="form-label">제목</label>
             <input type="text" name="subject" class="form-control">

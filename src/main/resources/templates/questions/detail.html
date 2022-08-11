@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" layout:decorate="~{common/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>질문 상세</title>
 </head>
@@ -33,7 +33,7 @@
     <!-- 답변 반복 끝  -->
     <!-- 답변 작성 -->
     <form th:action="@{|/answers/create/${question.id}|}" th:object="${answerFormDto}" method="post" class="my-3">
-        <div th:replace="form_errors :: formErrorsFragment"></div>
+        <div th:replace="common/form_errors :: formErrorsFragment"></div>
         <label for="content"></label>
         <textarea th:field="*{content}" name="content" id="content" rows="10" class="form-control"></textarea>
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
