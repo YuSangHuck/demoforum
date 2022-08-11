@@ -54,12 +54,12 @@ public class Question extends BaseEntity {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "id = " + getId() + ", " +
+                "id = " + id + ", " +
                 "createdBy = " + createdBy + ", " +
                 "lastModifiedBy = " + lastModifiedBy + ", " +
                 "createdDate = " + createdDate + ", " +
                 "lastModifiedDate = " + lastModifiedDate + ", " +
-                "subject = " + getSubject() + ", " +
-                "content = " + getContent() + ")";
+                "subject = " + subject + ", " +
+                "content = " + content + ")";
     }
 }

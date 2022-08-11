@@ -13,8 +13,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="question : ${questions}">
-        <td th:text="${question.subject}"></td>
+    <tr th:each="question, index : ${questions}">
+        <td>
+            <a th:href="@{|/questions/detail/${question.id}|}" th:text="${question.subject}"></a>
+        </td>
         <td th:text="${question.createdDate}"></td>
     </tr>
     </tbody>
