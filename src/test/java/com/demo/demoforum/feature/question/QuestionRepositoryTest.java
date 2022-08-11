@@ -15,6 +15,18 @@ class QuestionRepositoryTest {
     private QuestionRepository questionRepository;
 
     @Test
+    public void 더미데이터() {
+        for (int i = 0; i < 300; i++) {
+            questionRepository.save(
+                    Question.builder()
+                    .subject(String.format("test: [%03d]", i))
+                    .content("none")
+                    .build()
+            );
+        }
+    }
+
+    @Test
     public void 저장() {
         // given
         Question q1 = Question.builder()
@@ -46,6 +58,7 @@ class QuestionRepositoryTest {
         assertThat(save2).isEqualTo(q2);
         assertThat(save3).isEqualTo(q3);
     }
+
     @Test
     public void 전부조회() {
         // given
@@ -82,6 +95,7 @@ class QuestionRepositoryTest {
         // then
         assertThat(find).isEqualTo(question);
     }
+
     @Test
     public void 제목내용으로하나조회() {
         // given
