@@ -25,10 +25,10 @@ public class Question extends BaseEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(length = 40)
+    @Column(nullable = false, length = 40)
     private String subject;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
 //    demoForum\src\main\java\com\demo\demoforum\feature\question\Question.java:35:

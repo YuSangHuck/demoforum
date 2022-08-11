@@ -10,9 +10,10 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Getter
 public abstract class BaseEntity extends BaseTimeEntity {
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     @CreatedBy
     protected String createdBy;
+    @Column(nullable = false)
     @LastModifiedBy
     protected String lastModifiedBy;
 }

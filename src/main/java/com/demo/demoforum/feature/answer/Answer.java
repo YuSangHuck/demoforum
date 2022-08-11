@@ -20,7 +20,7 @@ public class Answer extends BaseEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String Content;
 
     @ManyToOne(fetch = FetchType.LAZY)
