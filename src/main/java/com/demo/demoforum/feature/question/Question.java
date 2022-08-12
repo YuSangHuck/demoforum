@@ -3,10 +3,7 @@ package com.demo.demoforum.feature.question;
 import com.demo.demoforum.entity.BaseEntity;
 import com.demo.demoforum.feature.answer.Answer;
 import com.demo.demoforum.feature.user.SiteUser;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -19,6 +16,8 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @Getter
+//FIXME setter 제거
+@Setter
 public class Question extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_id_generator")

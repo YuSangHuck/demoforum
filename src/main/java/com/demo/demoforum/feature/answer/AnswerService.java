@@ -1,5 +1,6 @@
 package com.demo.demoforum.feature.answer;
 
+import com.demo.demoforum.exception.DataNotFoundException;
 import com.demo.demoforum.feature.question.Question;
 import com.demo.demoforum.feature.user.SiteUser;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,17 @@ public class AnswerService {
                 .author(author)
                 .build();
         answerRepository.save(answer);
+    }
+//FIXME exception 문자열 변수로
+    public Answer getAnswer(Long id) {
+        return answerRepository.findById(id).orElseThrow(() -> new DataNotFoundException("answer not found"));
+    }
+
+    public void modify(Answer answer, String content) {
+        answer.setContent(content);
+        this.answerRepository.save(answer);
+    }
+    public void delete(Answer answer) {
+        this.answerRepository.delete(answer);
     }
 }

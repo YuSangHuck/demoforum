@@ -30,7 +30,7 @@ public class QuestionService {
         return questionRepository.findAll(pageable);
     }
 
-    public Question getQusetion(Long id) {
+    public Question getQuestion(Long id) {
         return questionRepository.findById(id).orElseThrow(() -> new DataNotFoundException("question not found"));
     }
 
@@ -40,5 +40,15 @@ public class QuestionService {
                 .content(content)
                 .author(author)
                 .build());
+    }
+
+    public void modify(Question question, String subject, String content) {
+        question.setSubject(subject);
+        question.setContent(content);
+        this.questionRepository.save(question);
+    }
+
+    public void delete(Question question) {
+        questionRepository.delete(question);
     }
 }

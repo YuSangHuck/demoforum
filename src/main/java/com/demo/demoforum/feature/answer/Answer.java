@@ -14,6 +14,8 @@ import java.util.Objects;
 @Getter
 @Builder
 @AllArgsConstructor
+//FIXME setter 제거
+@Setter
 public class Answer extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_id_generator")
