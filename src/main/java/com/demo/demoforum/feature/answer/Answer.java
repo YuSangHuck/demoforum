@@ -7,7 +7,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -33,6 +35,14 @@ public class Answer extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_answer_to_author"))
     private SiteUser author;
+
+    //    FIXME 다대다 => 일대다,다대일
+//    FIXME vote의 type으로 supertype(부모), subtype(자식) 구분지을것
+    @ManyToMany
+    @JoinTable(name = "answer_voter",
+            joinColumns = @JoinColumn(name = "answer_id"),
+            inverseJoinColumns = @JoinColumn(name = "voter_id"))
+    private Set<SiteUser> voter = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

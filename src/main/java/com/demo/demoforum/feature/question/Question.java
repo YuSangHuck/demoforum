@@ -7,9 +7,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -31,7 +29,7 @@ public class Question extends BaseEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-//    demoForum\src\main\java\com\demo\demoforum\feature\question\Question.java:35:
+    //    demoForum\src\main\java\com\demo\demoforum\feature\question\Question.java:35:
 //    warning: @Builder will ignore the initializing expression entirely.
 //    If you want the initializing expression to serve as default, add @Builder.Default.
 //    If it is not supposed to be settable during building, make the field final.
@@ -41,6 +39,14 @@ public class Question extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_question_to_author"))
     private SiteUser author;
+
+    //    FIXME 다대다 => 일대다,다대일
+//    FIXME vote의 type으로 supertype(부모), subtype(자식) 구분지을것
+    @ManyToMany
+    @JoinTable(name = "question_voter",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "voter_id"))
+    private Set<SiteUser> voter = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

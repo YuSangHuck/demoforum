@@ -42,7 +42,8 @@ public class AnswerController {
         answerService.create(question, answerFormDto.getContent(), siteUser);
         return String.format("redirect:/questions/detail/%s", id);
     }
-//    FIXME createForm, modifyForm / create, modify 함수명 구분
+
+    //    FIXME createForm, modifyForm / create, modify 함수명 구분
 //    FIXME return template 파일명, redirect 변수로 잘좀
 //    FIXME dto, entity / controller, service 레이어 잘 나눌것. cqs
 //    FIXME 에러도 문자열 말고 뭐 안되나? i18n 엮어서 봐볼것
@@ -57,6 +58,7 @@ public class AnswerController {
         answerFormDto.setContent(answer.getContent());
         return "answers/answer_form";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String answerModify(@Valid AnswerFormDto answerForm, BindingResult bindingResult,
@@ -71,6 +73,7 @@ public class AnswerController {
         this.answerService.modify(answer, answerForm.getContent());
         return String.format("redirect:/questions/detail/%s", answer.getQuestion().getId());
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String answerDelete(@PathVariable("id") Long id, Principal principal) {
@@ -81,5 +84,14 @@ public class AnswerController {
         this.answerService.delete(answer);
         return String.format("redirect:/questions/detail/%s", answer.getQuestion().getId());
     }
-//    !FIXME
+
+    //    !FIXME
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String answerVote(@PathVariable Long id, Principal principal) {
+        Answer answer = this.answerService.getAnswer(id);
+        SiteUser siteUser = this.userService.searchUser(principal.getName());
+        this.answerService.vote(answer, siteUser);
+        return String.format("redirect:/questions/detail/%s", answer.getQuestion().getId());
+    }
 }

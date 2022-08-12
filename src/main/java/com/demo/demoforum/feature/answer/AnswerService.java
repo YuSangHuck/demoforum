@@ -19,7 +19,8 @@ public class AnswerService {
                 .build();
         answerRepository.save(answer);
     }
-//FIXME exception 문자열 변수로
+
+    //FIXME exception 문자열 변수로
     public Answer getAnswer(Long id) {
         return answerRepository.findById(id).orElseThrow(() -> new DataNotFoundException("answer not found"));
     }
@@ -28,7 +29,13 @@ public class AnswerService {
         answer.setContent(content);
         this.answerRepository.save(answer);
     }
+
     public void delete(Answer answer) {
         this.answerRepository.delete(answer);
+    }
+
+    public void vote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser);
+        this.answerRepository.save(answer);
     }
 }
