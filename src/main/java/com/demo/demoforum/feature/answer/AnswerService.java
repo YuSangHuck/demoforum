@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-    public void create(Question question, String content, SiteUser author) {
+    public Answer create(Question question, String content, SiteUser author) {
         Answer answer = Answer.builder()
                 .content(content)
                 .question(question)
                 .author(author)
                 .build();
-        answerRepository.save(answer);
+        return answerRepository.save(answer);
     }
 
     //FIXME exception 문자열 변수로

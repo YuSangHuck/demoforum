@@ -39,8 +39,8 @@ public class AnswerController {
             model.addAttribute("question", question);
             return "questions/detail";
         }
-        answerService.create(question, answerFormDto.getContent(), siteUser);
-        return String.format("redirect:/questions/detail/%s", id);
+        Answer answer = answerService.create(question, answerFormDto.getContent(), siteUser);
+        return String.format("redirect:/questions/detail/%s#answer_%d", id, answer.getId());
     }
 
     //    FIXME createForm, modifyForm / create, modify 함수명 구분
@@ -71,7 +71,7 @@ public class AnswerController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.answerService.modify(answer, answerForm.getContent());
-        return String.format("redirect:/questions/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/questions/detail/%s#answer_%d", answer.getQuestion().getId(), answer.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -92,6 +92,6 @@ public class AnswerController {
         Answer answer = this.answerService.getAnswer(id);
         SiteUser siteUser = this.userService.searchUser(principal.getName());
         this.answerService.vote(answer, siteUser);
-        return String.format("redirect:/questions/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/questions/detail/%s#answer_%d", answer.getQuestion().getId(), answer.getId());
     }
 }
