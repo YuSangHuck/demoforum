@@ -31,9 +31,13 @@ public class QuestionController {
     private final String REDIRECT = "redirect:";
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-        Page<Question> paging = questionService.getQuestions(page);
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+                       @RequestParam(value = "kw", defaultValue = "") String kw
+    ) {
+
+        Page<Question> paging = questionService.getQuestions(page, kw);
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
         return QUESTION_LIST;
     }
 
@@ -99,6 +103,7 @@ public class QuestionController {
         questionService.delete(question);
         return REDIRECT + "/";
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")
     public String questionVote(@PathVariable Long id, Principal principal) {
