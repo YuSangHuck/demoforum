@@ -6,12 +6,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
-    @RequestMapping("/forum")
-    @ResponseBody
-    public String index() {
-        return "aaa";
-    }
-
     @RequestMapping("/")
     public String root() {
         return "redirect:/questions/list";
