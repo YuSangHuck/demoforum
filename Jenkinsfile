@@ -1,5 +1,5 @@
 pipeline {
-  agent { label 'linux'}
+  agent any
   environment {
     def dockerHome = tool 'myDocker'
     PATH = "${dockerHome}/bin:${env.PATH}"
