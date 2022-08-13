@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 public class P6spyLogMessageFormatConfiguration {
-
     @PostConstruct
     public void setLogMessageFormat() {
         P6SpyOptions.getActiveInstance()
