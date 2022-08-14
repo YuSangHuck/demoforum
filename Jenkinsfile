@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
 //        terraform 'Terraform 1.2.7 linux'
-        terraform 'Terraform'
+        terraform 'Terraform 1.2.7'
     }
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
