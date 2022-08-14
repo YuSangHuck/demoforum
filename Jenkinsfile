@@ -17,32 +17,33 @@ pipeline {
         stage('Plan') {
 
             steps {
-                sh 'terraform --version'
-                sh 'terraform init -upgrade'
-                sh "terraform validate"
-                sh "terraform plan"
+                sh 'printenv'
+//                 sh 'terraform --version'
+//                 sh 'terraform init -upgrade'
+//                 sh "terraform validate"
+//                 sh "terraform plan"
             }
         }
-        stage('Approval') {
-           when {
-               not {
-                   equals expected: true, actual: params.autoApprove
-               }
-           }
-
-           steps {
-               script {
-                    input message: "Do you want to apply the plan?",
-                    parameters: [text(name: 'Plan', description: 'Please review the plan')]
-
-               }
-           }
-       }
-
-        stage('Apply') {
-            steps {
-                sh "terraform apply --auto-approve"
-            }
-        }
+//         stage('Approval') {
+//            when {
+//                not {
+//                    equals expected: true, actual: params.autoApprove
+//                }
+//            }
+//
+//            steps {
+//                script {
+//                     input message: "Do you want to apply the plan?",
+//                     parameters: [text(name: 'Plan', description: 'Please review the plan')]
+//
+//                }
+//            }
+//        }
+//
+//         stage('Apply') {
+//             steps {
+//                 sh "terraform apply --auto-approve"
+//             }
+//         }
     }
 }
