@@ -12,7 +12,7 @@ pipeline {
 //        terraform '1.2.7 linux'
 //        terraform 'Terraform 1.2.7'
 //        maven 'apache-maven-3.8.6'
-        terraform 'terraform1.2.7'
+        terraform 'terraform'
     }
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
