@@ -2,7 +2,16 @@ pipeline {
     agent any
     tools {
 //        terraform 'Terraform 1.2.7 linux'
-        terraform 'Terraform 1.2.7'
+//        terraform
+//        terraform 'Terraform'
+//        terraform 'Terraform 1.2.7'
+//        terraform 'Terraform 1.2.7 linux'
+//        terraform 'Terraform 1.2.7 linux'
+//        terraform 'Terraform 1.2.7 linux'
+//        terraform '1.2.7'
+//        terraform '1.2.7 linux'
+//        terraform 'Terraform 1.2.7'
+        maven '3.8.6'
     }
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
@@ -35,3 +44,23 @@ pipeline {
 //        }
     }
 }
+
+//
+//[ant
+//, hudson.tasks.Ant$AntInstallation
+//, dockerTool
+//, org.jenkinsci.plugins.docker.commons.tools.DockerTool
+//, git
+//, hudson.plugins.git.GitTool
+//, gradle
+//, hudson.plugins.gradle.GradleInstallation
+//, jdk
+//, hudson.model.JDK
+//, jgit
+//, org.jenkinsci.plugins.gitclient.JGitTool
+//, jgitapache
+//, org.jenkinsci.plugins.gitclient.JGitApacheTool
+//, maven
+//, hudson.tasks.Maven$MavenInstallation
+//, terraform
+//, org.jenkinsci.plugins.terraform.TerraformInstallation]
