@@ -11,20 +11,12 @@ pipeline {
                 sh 'printenv'
             }
         }
-        stage('echo') {
-            steps {
-                echo "AWS_ACCESS_KEY_ID is ${AWS_ACCESS_KEY_ID}"
-                echo "AWS_SECRET_ACCESS_KEY is ${AWS_SECRET_ACCESS_KEY}"
-                echo "REGION is ${REGION}"
-            }
-        }
         stage('TF Init&Plan') {
             steps {
                 sh 'terraform init'
                 sh 'terraform plan'
             }
         }
-
         stage('Approval') {
             steps {
                 script {
@@ -32,7 +24,6 @@ pipeline {
                 }
             }
         }
-
         stage('TF Apply') {
             steps {
                 sh 'terraform apply -input=false'
