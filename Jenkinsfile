@@ -6,28 +6,28 @@ pipeline {
         REGION = credentials('AWS_REGION')
     }
     stages {
-        stage('printenv') {
+        stage('TF version') {
             steps {
-                sh 'printenv'
+                sh 'terraform --version'
             }
         }
-        stage('TF Init&Plan') {
-            steps {
-                sh 'terraform init'
-                sh 'terraform plan'
-            }
-        }
-        stage('Approval') {
-            steps {
-                script {
-                    def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
-                }
-            }
-        }
-        stage('TF Apply') {
-            steps {
-                sh 'terraform apply -input=false'
-            }
-        }
+//        stage('TF Init&Plan') {
+//            steps {
+//                sh 'terraform init'
+//                sh 'terraform plan'
+//            }
+//        }
+//        stage('Approval') {
+//            steps {
+//                script {
+//                    def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
+//                }
+//            }
+//        }
+//        stage('TF Apply') {
+//            steps {
+//                sh 'terraform apply -input=false'
+//            }
+//        }
     }
 }
