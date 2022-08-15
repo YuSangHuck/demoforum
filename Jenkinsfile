@@ -16,8 +16,10 @@ pipeline {
         }
         stage('TF Init&Plan') {
             steps {
-                sh 'terraform init'
-                sh 'terraform plan'
+                dir('tf') {
+                    sh 'terraform init'
+                    sh 'terraform plan'
+                }
             }
         }
         stage('Approval') {
@@ -29,12 +31,16 @@ pipeline {
         }
         stage('TF Apply') {
             steps {
-                sh 'terraform apply -input=false -auto-approve'
+                dir('tf') {
+                    sh 'terraform apply -input=false -auto-approve'
+                }
             }
         }
         stage('TF Destroy'){
             steps {
-                sh 'terraform destroy -auto-approve'
+                dir('tf') {
+                    sh 'terraform destroy -auto-approve'
+                }
             }
         }
     }
