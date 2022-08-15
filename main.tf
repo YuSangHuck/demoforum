@@ -9,9 +9,7 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
-provider "aws" {
-  region = "ap-northeast-2"
-}
+provider "aws" {}
 
 data "aws_ami" "ubuntu" {
   most_recent = true
