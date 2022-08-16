@@ -13,7 +13,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +64,6 @@ public class QuestionService {
 //    FIXME CriteriaBuilder 대신 querydsl
     private Specification<Question> search(String kw) {
         return new Specification<>() {
-            @Serial
             private static final long serialVersionUID = 1L;
 
             @Override
