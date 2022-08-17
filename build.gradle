@@ -1,15 +1,3 @@
-buildscript {
-    ext {
-        springBootVersion = '2.7.2'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 plugins {
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
@@ -28,6 +16,7 @@ configurations {
 }
 
 repositories {
+    mavenLocal() // local cache 사용
     mavenCentral()
 }
 
@@ -63,10 +52,10 @@ dependencies {
     implementation 'org.commonmark:commonmark:0.18.2'
     implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot2:1.8.2'
     implementation 'io.symphonia:lambda-logging:1.0.3'
+    implementation 'mysql:mysql-connector-java:8.0.30'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2:1.4.200'
-    runtimeOnly 'mysql:mysql-connector-java:8.0.30'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
