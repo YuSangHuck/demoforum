@@ -57,7 +57,12 @@ package:
 functions:
   demoForum:
     handler: com.demo.demoforum.LambdaHandler::handleRequest
-    url: true
+    events:
+      - httpApi: '*'
+    httpApi:
+      payload: '1.0'
+    timeout: 60
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
