@@ -46,7 +46,7 @@ public class Question extends BaseEntity {
     @JoinTable(name = "question_voter",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "voter_id"))
-    private Set<SiteUser> voter = new LinkedHashSet<>();
+    private final Set<SiteUser> voter = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

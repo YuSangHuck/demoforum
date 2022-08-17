@@ -40,10 +40,10 @@ public class SiteUser extends BaseEntity {
     private String email;
 
     @OneToMany(mappedBy = "author")
-    private List<Question> questions = new ArrayList<>();
+    private final List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "author")
-    private List<Answer> answers = new ArrayList<>();
+    private final List<Answer> answers = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
