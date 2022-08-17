@@ -25,9 +25,9 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final UserService userService;
-    private final String QUESTION_FORM = "/questions/form";
-    private final String QUESTION_LIST = "/questions/list";
-    private final String QUESTION_DETAIL = "/questions/detail";
+    private final String QUESTION_FORM = "questions/form";
+    private final String QUESTION_LIST = "questions/list";
+    private final String QUESTION_DETAIL = "questions/detail";
     private final String REDIRECT = "redirect:";
 
     @GetMapping("/list")
@@ -62,7 +62,7 @@ public class QuestionController {
         }
         SiteUser siteUser = userService.searchUser(principal.getName());
         questionService.create(questionFormDto.getSubject(), questionFormDto.getContent(), siteUser);
-        return REDIRECT + QUESTION_LIST;
+        return REDIRECT + '/' + QUESTION_LIST;
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -89,7 +89,7 @@ public class QuestionController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다");
         }
         questionService.modify(qusetion, questionFormDto.getSubject(), questionFormDto.getContent());
-        return REDIRECT + QUESTION_DETAIL + "/" + id;
+        return REDIRECT + '/' + QUESTION_DETAIL + "/" + id;
     }
 
     @PreAuthorize("isAuthenticated()")
