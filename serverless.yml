@@ -23,6 +23,9 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: java11
+  logs:
+    httpApi:
+      format: '{ "requestId": "$context.requestId", "ip": "$context.identity.sourceIp", "requestTime": "$context.requestTime", "httpMethod": "$context.httpMethod", "routeKey": "$context.routeKey", "status": "$context.status", "protocol": "$context.protocol", "responseLength": "$context.responseLength", "path": "$context.path", "basePathMatched": "$context.customDomain.basePathMatched" }'
 
 # you can overwrite defaults here
   stage: dev
