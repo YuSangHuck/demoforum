@@ -1,0 +1,1 @@
+.\gradlew.bat clean&&.\gradlew.bat buildZip&&serverless deploy
