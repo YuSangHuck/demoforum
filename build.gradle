@@ -29,6 +29,9 @@ task buildZip(type: Zip) {
         from(configurations.compileClasspath) {
             exclude('tomcat-embed-*', 'spring-boot-starter-tomcat*')
         }
+        from(configurations.runtimeClasspath) {
+            include('thymeleaf-expression-processor-*', 'groovy-extensions-*')
+        }
     }
 }
 
