@@ -11,7 +11,7 @@ public class P6spySqlFormatConfiguration implements MessageFormattingStrategy {
     @Override
     public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared, String sql, String url) {
         sql = formatSql(category, sql);
-        return now + "|" + elapsed + "ms|" + category + "|connection " + connectionId + "|" + P6Util.singleLine(prepared) + sql;
+        return String.format("'%s'|'%d'ms|'%s'|connection'%d'|'%s'\n'%s'", now, elapsed, category, connectionId, P6Util.singleLine(prepared), sql);
     }
 
     private String formatSql(String category, String sql) {
@@ -25,7 +25,7 @@ public class P6spySqlFormatConfiguration implements MessageFormattingStrategy {
             } else {
                 sql = FormatStyle.BASIC.getFormatter().format(sql);
             }
-            sql = "|\nHeFormatSql(P6Spy sql,Hibernate format):" + sql;
+            sql = "HeFormatSql(P6Spy sql,Hibernate format):" + sql;
         }
 
         return sql;

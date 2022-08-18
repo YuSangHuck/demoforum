@@ -25,8 +25,8 @@ provider:
   runtime: java11
 
 # you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  stage: dev
+  region: ap-northeast-2
 
 # you can add statements to the Lambda function's IAM Role here
 #  iam:
@@ -62,6 +62,8 @@ functions:
     httpApi:
       payload: '1.0'
     timeout: 60
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
