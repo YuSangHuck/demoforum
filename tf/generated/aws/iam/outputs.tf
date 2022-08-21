@@ -166,6 +166,10 @@ output "aws_iam_role_tfer--demoForum-dev-ap-northeast-2-lambdaRole_id" {
   value = "${aws_iam_role.tfer--demoForum-dev-ap-northeast-2-lambdaRole.id}"
 }
 
+output "aws_iam_role_tfer--tf-lambda-iam_id" {
+  value = "${aws_iam_role.tfer--tf-lambda-iam.id}"
+}
+
 output "aws_iam_user_policy_attachment_tfer--admin_AdministratorAccess_id" {
   value = "${aws_iam_user_policy_attachment.tfer--admin_AdministratorAccess.id}"
 }

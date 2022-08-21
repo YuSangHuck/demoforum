@@ -304,3 +304,32 @@ POLICY
     STAGE = "dev"
   }
 }
+
+resource "aws_iam_role" "tfer--tf-lambda-iam" {
+  assume_role_policy = <<POLICY
+{
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      }
+    }
+  ],
+  "Version": "2012-10-17"
+}
+POLICY
+
+  max_session_duration = "3600"
+  name                 = "tf-lambda-iam"
+  path                 = "/"
+
+  tags = {
+    CREATED_BY = "tf"
+  }
+
+  tags_all = {
+    CREATED_BY = "tf"
+  }
+}
