@@ -1,6 +1,6 @@
 locals {
-  cw_log_group_name_lambda       = "/aws/lambda/${aws_lambda_function.tf-lambda.function_name}"
-  cw_log_group_name_apigatewayv2 = "/aws/http-api/${aws_lambda_function.tf-lambda.function_name}"
+  cw_log_group_name_lambda       = "/aws/lambda/${local.prefix}"
+  cw_log_group_name_apigatewayv2 = "/aws/http-api/${local.prefix}"
   cw_log_retention_in_days       = 1
 }
 
