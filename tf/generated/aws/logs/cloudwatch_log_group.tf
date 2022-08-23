@@ -15,17 +15,17 @@ resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-http-api-002F-tf-demo-
   retention_in_days = "1"
 
   tags = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    NAME        = "tf-demo-forum-log-apigatewayv2"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    NAME       = "tf-demo-forum-log-apigatewayv2"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 
   tags_all = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    NAME        = "tf-demo-forum-log-apigatewayv2"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    NAME       = "tf-demo-forum-log-apigatewayv2"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 }
 
@@ -46,16 +46,16 @@ resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-lambda-002F-tf-demo-fo
   retention_in_days = "1"
 
   tags = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    NAME        = "tf-demo-forum-log-lambda"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    NAME       = "tf-demo-forum-log-lambda"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 
   tags_all = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    NAME        = "tf-demo-forum-log-lambda"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    NAME       = "tf-demo-forum-log-lambda"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 }

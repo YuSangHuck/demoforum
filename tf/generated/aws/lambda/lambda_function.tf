@@ -56,17 +56,17 @@ resource "aws_lambda_function" "tfer--tf-demo-forum" {
   source_code_hash               = "z3IuWkxq63HnpLlo3OHzCkO6RLKjgHclKMEJvdbwus8="
 
   tags = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    Name        = "tf-demo-forum-lambda"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    Name       = "tf-demo-forum-lambda"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 
   tags_all = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    Name        = "tf-demo-forum-lambda"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    Name       = "tf-demo-forum-lambda"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 
   timeout = "60"

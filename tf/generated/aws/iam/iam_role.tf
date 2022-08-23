@@ -332,16 +332,16 @@ POLICY
   path                 = "/"
 
   tags = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    NAME        = "tf-demo-forum-role"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    NAME       = "tf-demo-forum-role"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 
   tags_all = {
-    CREATED_BY  = "tf"
-    ENVIRONMENT = "dev"
-    NAME        = "tf-demo-forum-role"
-    PROJECT     = "demo-forum"
+    CREATED_BY = "tf"
+    NAME       = "tf-demo-forum-role"
+    PROJECT    = "demo-forum"
+    STAGE      = "dev"
   }
 }

@@ -10,9 +10,12 @@ resource "aws_apigatewayv2_stage" "tf-lambda-stage" {
   api_id      = aws_apigatewayv2_api.tf-lambda-api.id
   name        = "$default"
   auto_deploy = true
-  tags        = {
-    CREATED_BY = "tf"
-  }
+  tags        = merge(
+    {
+      NAME = "${local.prefix}-apigatewayv2-stage"
+    },
+    local.common_tags
+  )
   access_log_settings {
     destination_arn = "${aws_cloudwatch_log_group.tf-apigatewayv2.arn}"
     format          = "{ \"requestId\": \"$context.requestId\", \"ip\": \"$context.identity.sourceIp\", \"requestTime\": \"$context.requestTime\", \"httpMethod\": \"$context.httpMethod\", \"routeKey\": \"$context.routeKey\", \"status\": \"$context.status\", \"protocol\": \"$context.protocol\", \"responseLength\": \"$context.responseLength\", \"path\": \"$context.path\", \"basePathMatched\": \"$context.customDomain.basePathMatched\" }"
