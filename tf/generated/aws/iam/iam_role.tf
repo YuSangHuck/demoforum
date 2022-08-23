@@ -315,12 +315,17 @@ resource "aws_iam_role" "tfer--tf-demo-forum-role" {
       "Principal": {
         "Service": "lambda.amazonaws.com"
       },
-      "Sid": ""
+      "Sid": "stsAssumeRole"
     }
   ],
   "Version": "2012-10-17"
 }
 POLICY
+
+  inline_policy {
+    name   = "tf-demo-forum-role-policy"
+    policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"logCreate\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"logs:CreateLogStream\",\n        \"logs:CreateLogGroup\"\n      ],\n      \"Resource\": \"arn:aws:logs:ap-northeast-2:752417200383:log-group:/aws/lambda/tf-demo-forum:*\"\n    },\n    {\n      \"Sid\": \"logPut\",\n      \"Effect\": \"Allow\",\n      \"Action\": \"logs:PutLogEvents\",\n      \"Resource\": \"arn:aws:logs:ap-northeast-2:752417200383:log-group:/aws/lambda/tf-demo-forum:*:*\"\n    }\n  ]\n}"
+  }
 
   max_session_duration = "3600"
   name                 = "tf-demo-forum-role"

@@ -8,8 +8,11 @@ data "aws_iam_policy_document" "simple_lambda_assume_role_policy" {
       type        = "Service"
     }
     effect = "Allow"
-     sid    = "stsAssumeRole"
+    sid    = "stsAssumeRole"
   }
+}
+
+data "aws_iam_policy_document" "tf-lambda-log-policy" {
   #   "logs:CreateLogStream","logs:CreateLogGroup"
   statement {
     actions   = ["logs:CreateLogStream", "logs:CreateLogGroup"]
@@ -35,4 +38,9 @@ resource "aws_iam_role" "tf-lambda-iam" {
     },
     local.common_tags
   )
+}
+resource "aws_iam_role_policy" "tf-lambda-role-policy" {
+  name   = "${local.prefix}-role-policy"
+  policy = data.aws_iam_policy_document.tf-lambda-log-policy.json
+  role   = aws_iam_role.tf-lambda-iam.id
 }

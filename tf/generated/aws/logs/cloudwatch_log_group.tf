@@ -10,8 +10,8 @@ resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-http-api-002F-demoForu
   }
 }
 
-resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-http-api-002F-tf-demo-forum-lambda" {
-  name              = "/aws/http-api/tf-demo-forum-lambda"
+resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-http-api-002F-tf-demo-forum" {
+  name              = "/aws/http-api/tf-demo-forum"
   retention_in_days = "1"
 
   tags = {
@@ -41,8 +41,8 @@ resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-lambda-002F-demoForum-
   }
 }
 
-resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-lambda-002F-tf-demo-forum-lambda" {
-  name              = "/aws/lambda/tf-demo-forum-lambda"
+resource "aws_cloudwatch_log_group" "tfer---002F-aws-002F-lambda-002F-tf-demo-forum" {
+  name              = "/aws/lambda/tf-demo-forum"
   retention_in_days = "1"
 
   tags = {

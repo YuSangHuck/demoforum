@@ -114,6 +114,10 @@ output "aws_iam_role_policy_tfer--demoForum-dev-ap-northeast-2-lambdaRole_demoFo
   value = "${aws_iam_role_policy.tfer--demoForum-dev-ap-northeast-2-lambdaRole_demoForum-dev-lambda.id}"
 }
 
+output "aws_iam_role_policy_tfer--tf-demo-forum-role_tf-demo-forum-role-policy_id" {
+  value = "${aws_iam_role_policy.tfer--tf-demo-forum-role_tf-demo-forum-role-policy.id}"
+}
+
 output "aws_iam_role_tfer--AWSServiceRoleForAPIGateway_id" {
   value = "${aws_iam_role.tfer--AWSServiceRoleForAPIGateway.id}"
 }
