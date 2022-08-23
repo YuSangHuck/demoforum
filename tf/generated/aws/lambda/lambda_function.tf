@@ -33,7 +33,9 @@ resource "aws_lambda_function" "tfer--demoForum-dev-demoForum" {
   }
 }
 
-resource "aws_lambda_function" "tfer--tf-lambda-function" {
+resource "aws_lambda_function" "tfer--tf-demo-forum-lambda" {
+  description = "This is demoForum Lambda function"
+
   environment {
     variables = {
       SPRING_PROFILES_ACTIVE = "prod"
@@ -44,21 +46,27 @@ resource "aws_lambda_function" "tfer--tf-lambda-function" {
     size = "512"
   }
 
-  function_name                  = "tf-lambda-function"
+  function_name                  = "tf-demo-forum-lambda"
   handler                        = "com.demo.demoforum.LambdaHandler::handleRequest"
   memory_size                    = "2048"
   package_type                   = "Zip"
   reserved_concurrent_executions = "-1"
-  role                           = "arn:aws:iam::752417200383:role/tf-lambda-iam"
+  role                           = "arn:aws:iam::752417200383:role/tf-demo-forum-role"
   runtime                        = "java11"
-  source_code_hash               = "u9I4l40nIM0mOx52ELjCz0tUwvQlaX1fOaxCG1TIbH8="
+  source_code_hash               = "z3IuWkxq63HnpLlo3OHzCkO6RLKjgHclKMEJvdbwus8="
 
   tags = {
-    CREATED_BY = "tf"
+    CREATED_BY  = "tf"
+    ENVIRONMENT = "dev"
+    Name        = "tf-demo-forum-lambda"
+    PROJECT     = "demo-forum"
   }
 
   tags_all = {
-    CREATED_BY = "tf"
+    CREATED_BY  = "tf"
+    ENVIRONMENT = "dev"
+    Name        = "tf-demo-forum-lambda"
+    PROJECT     = "demo-forum"
   }
 
   timeout = "60"

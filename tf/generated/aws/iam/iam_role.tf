@@ -305,7 +305,7 @@ POLICY
   }
 }
 
-resource "aws_iam_role" "tfer--tf-lambda-iam" {
+resource "aws_iam_role" "tfer--tf-demo-forum-role" {
   assume_role_policy = <<POLICY
 {
   "Statement": [
@@ -314,7 +314,8 @@ resource "aws_iam_role" "tfer--tf-lambda-iam" {
       "Effect": "Allow",
       "Principal": {
         "Service": "lambda.amazonaws.com"
-      }
+      },
+      "Sid": ""
     }
   ],
   "Version": "2012-10-17"
@@ -322,14 +323,20 @@ resource "aws_iam_role" "tfer--tf-lambda-iam" {
 POLICY
 
   max_session_duration = "3600"
-  name                 = "tf-lambda-iam"
+  name                 = "tf-demo-forum-role"
   path                 = "/"
 
   tags = {
-    CREATED_BY = "tf"
+    CREATED_BY  = "tf"
+    ENVIRONMENT = "dev"
+    NAME        = "tf-demo-forum-role"
+    PROJECT     = "demo-forum"
   }
 
   tags_all = {
-    CREATED_BY = "tf"
+    CREATED_BY  = "tf"
+    ENVIRONMENT = "dev"
+    NAME        = "tf-demo-forum-role"
+    PROJECT     = "demo-forum"
   }
 }

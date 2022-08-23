@@ -1,20 +1,22 @@
-resource "aws_iam_role" "tf-lambda-iam" {
-  name               = "tf-lambda-iam"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow"
+data "aws_iam_policy_document" "simple_lambda_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      identifiers = ["lambda.amazonaws.com"]
+      type        = "Service"
     }
-  ]
-}
-EOF
-  tags               = {
-    CREATED_BY = "tf"
+    effect = "Allow"
   }
+}
+
+resource "aws_iam_role" "tf-lambda-iam" {
+  name               = "${local.prefix}-role"
+  assume_role_policy = data.aws_iam_policy_document.simple_lambda_assume_role_policy.json
+  tags               = merge(
+    {
+      NAME = "${local.prefix}-role"
+    },
+    local.common_tags
+  )
 }

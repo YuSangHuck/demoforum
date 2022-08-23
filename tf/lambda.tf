@@ -1,24 +1,40 @@
+locals {
+  lambda_filename              = "../build/distributions/demoForum-0.0.1-SNAPSHOT.zip"
+  lambda_handler               = "com.demo.demoforum.LambdaHandler::handleRequest"
+  lambda_description           = "This is demoForum Lambda function"
+  lambda_runtime               = "java11"
+  lambda_timeout               = 60
+  lambda_memory_size           = 2048
+  lambda_package_type          = "Zip"
+  lambda_concurrent_executions = -1
+}
+
 resource "aws_lambda_function" "tf-lambda" {
   environment {
     variables = {
       SPRING_PROFILES_ACTIVE = "prod"
     }
   }
-
-  function_name    = "tf-lambda-function"
-  handler          = "com.demo.demoforum.LambdaHandler::handleRequest"
-  memory_size      = 2048
-  package_type     = "Zip"
-  filename         = var.filename
+  function_name    = "${local.prefix}-lambda"
+  description      = "${local.lambda_description}"
+  handler          = "${local.lambda_handler}"
+  memory_size      = "${local.lambda_memory_size}"
+  package_type     = "${local.lambda_package_type}"
+  filename         = "${local.lambda_filename}"
   role             = aws_iam_role.tf-lambda-iam.arn
-  runtime          = "java11"
-  source_code_hash = filebase64sha256(var.filename)
+  runtime          = "${local.lambda_runtime}"
+  source_code_hash = filebase64sha256("${local.lambda_filename}")
 
-  tags = {
-    CREATED_BY = "tf"
-  }
+  tags = merge(
+    {
+      Name = "${local.prefix}-lambda"
+    },
+    local.common_tags
+  )
 
-  timeout = 60
+  timeout = "${local.lambda_timeout}"
+
+  reserved_concurrent_executions = local.lambda_concurrent_executions
 
   tracing_config {
     mode = "Active"
@@ -31,5 +47,5 @@ resource "aws_lambda_permission" "tf-api-gw" {
   function_name = aws_lambda_function.tf-lambda.arn
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.tf-lambda-api.execution_arn}/*/*/*"
-#  /*/*/*가 의미가 뭐지?
+  #  /*/*/*가 의미가 뭐지?
 }
