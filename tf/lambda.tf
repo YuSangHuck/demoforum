@@ -46,6 +46,5 @@ resource "aws_lambda_permission" "tf-api-gw" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.tf-lambda.arn
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.tf-lambda-api.execution_arn}/*/*/*"
-  #  /*/*/*가 의미가 뭐지?
+  source_arn    = "${aws_apigatewayv2_api.tf-lambda-api.execution_arn}/*"
 }
