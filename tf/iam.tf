@@ -8,18 +8,21 @@ data "aws_iam_policy_document" "simple_lambda_assume_role_policy" {
       type        = "Service"
     }
     effect = "Allow"
+     sid    = "stsAssumeRole"
   }
   #   "logs:CreateLogStream","logs:CreateLogGroup"
   statement {
     actions   = ["logs:CreateLogStream", "logs:CreateLogGroup"]
-    resources = "${aws_cloudwatch_log_group.tf-lambda.arn}:*"
+    resources = ["${aws_cloudwatch_log_group.tf-lambda.arn}:*"]
     effect    = "Allow"
+    sid       = "logCreate"
   }
   #  "logs:PutLogEvents"
   statement {
     actions   = ["logs:PutLogEvents"]
-    resources = "${aws_cloudwatch_log_group.tf-lambda.arn}:*:*"
+    resources = ["${aws_cloudwatch_log_group.tf-lambda.arn}:*:*"]
     effect    = "Allow"
+    sid       = "logPut"
   }
 }
 
