@@ -15,7 +15,7 @@ resource "aws_lambda_function" "tf-lambda" {
       SPRING_PROFILES_ACTIVE = "prod"
     }
   }
-  function_name    = "${local.prefix}-lambda"
+  function_name    = "${local.prefix}"
   description      = "${local.lambda_description}"
   handler          = "${local.lambda_handler}"
   memory_size      = "${local.lambda_memory_size}"

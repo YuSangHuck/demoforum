@@ -33,7 +33,7 @@ resource "aws_lambda_function" "tfer--demoForum-dev-demoForum" {
   }
 }
 
-resource "aws_lambda_function" "tfer--tf-demo-forum-lambda" {
+resource "aws_lambda_function" "tfer--tf-demo-forum" {
   description = "This is demoForum Lambda function"
 
   environment {
@@ -46,7 +46,7 @@ resource "aws_lambda_function" "tfer--tf-demo-forum-lambda" {
     size = "512"
   }
 
-  function_name                  = "tf-demo-forum-lambda"
+  function_name                  = "tf-demo-forum"
   handler                        = "com.demo.demoforum.LambdaHandler::handleRequest"
   memory_size                    = "2048"
   package_type                   = "Zip"
