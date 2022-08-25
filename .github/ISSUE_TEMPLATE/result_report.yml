@@ -1,0 +1,36 @@
+name: "📄 Result Report"
+description: Create a new ticket for a bug.
+title: "📄 [enhancement] - <title>"
+labels: [
+  "enhancement"
+]
+body:
+  - type: dropdown
+    id: os
+    attributes:
+      label: "OS"
+      description: What is the impacted environment ?
+      multiple: false
+      options:
+        - Windows
+        - Linux
+        - Mac
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps"
+      description: Please enter an explicit steps of your issue
+      placeholder: Short and explicit steps of your result
+      value: |
+        # 과정
+        
+        ## step
+        
+        ### sub step
+        
+        ### sub step
+
+    validations:
+      required: true
