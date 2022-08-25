@@ -1,14 +1,17 @@
+String ERROR = 'error'
+String FAILURE = 'failure'
+String PENDING = 'pending'
+String SUCCESS = 'success'
+
 void setBuildStatus(String message, String state) {
     step([
-            $class: "GitHubCommitStatusSetter",
-            reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/my-org/my-repo"],
-            contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
-            errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-            statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+            $class            : "GitHubCommitStatusSetter",
+            reposSource       : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
+            contextSource     : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+            errorHandlers     : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+            statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]
     ]);
 }
-
-setBuildStatus("Build complete", "SUCCESS");
 
 pipeline {
     agent any
@@ -23,8 +26,21 @@ pipeline {
     stages {
         stage('setStatusSuccess') {
             steps {
-                setBuildStatus("Build complete", "SUCCESS");
+                echo 'setStatusSuccess'
             }
+        }
+    }
+    post {
+        success {
+            echo 'success'
+            setBuildStatus("Build complete", SUCCESS);
+        }
+        failure {
+            echo 'fail'
+            setBuildStatus("Build failed", FAILURE);
+        }
+        always {
+            echo 'I will always execute this'
         }
     }
 }
