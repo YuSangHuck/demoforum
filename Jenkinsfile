@@ -8,7 +8,7 @@ void setBuildStatus(String message, String state) {
             $class             : "GitHubCommitStatusSetter",
             reposSource        : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
             contextSource      : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"], // github에서 식별자. branch-rule, commit-status
-            errorHandlers      : [$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"], // 어디에 쓰이는건지 모름
+            errorHandlers      : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // 어디에 쓰이는건지 모름
             statusResultSource : [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]//, // 결과 보여줌
 //            statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "http://svsrrmnzb2ckyh4576v4saelh1xrdq49.iptime.org:10101"]  // 뒤에 /blue/organizations/jenkins/demoforum/detail/feature%2Fcicd/14/pipeline 이런거 붙어야 함
     ]);
