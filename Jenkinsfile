@@ -45,7 +45,7 @@ pipeline {
     }
 }
 
-
-- setBuildStatus 테스트
-인자별 모든 케이스 구해서 각 케이스 별 sha 임의로 긁어서 jenkis에서 jenkinsfile 수정 후 run해서 github에서 어케나오는지 보기
-failure인거 왜 그런지 확인
+//
+//- setBuildStatus 테스트
+//인자별 모든 케이스 구해서 각 케이스 별 sha 임의로 긁어서 jenkis에서 jenkinsfile 수정 후 run해서 github에서 어케나오는지 보기
+//failure인거 왜 그런지 확인
