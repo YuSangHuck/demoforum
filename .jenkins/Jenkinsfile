@@ -1,8 +1,9 @@
 pipeline {
     agent any
-//    tools {
+    tools {
 //        terraform 'terraform'
-//    }
+        gradle 'gradle'
+    }
 //    environment {
 //        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
 //        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
@@ -34,6 +35,7 @@ pipeline {
         stage('build') {
             steps {
                 sh 'echo buildZip with gradle'
+                sh 'gradle clean buildZip'
             }
         }
         stage('deploy') {
