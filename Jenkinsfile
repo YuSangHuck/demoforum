@@ -4,13 +4,28 @@ String PENDING = 'pending'
 String SUCCESS = 'success'
 
 void setBuildStatus(String message, String state) {
+    String PUBLIC_JENKINS = 'http://svsrrmnzb2ckyh4576v4saelh1xrdq49.iptime.org:10101'
+    def host = new URI(PUBLIC_JENKINS).getHost()
+    String RUN_DISPLAY_URL = "${env.RUN_DISPLAY_URL}"
+    def publcJenkisUri = new URI(RUN_DISPLAY_URL)
+    def authority = publcJenkisUri.getAuthority() // localhost:10101
+    def fragment = publcJenkisUri.getFragment() // null
+//    def host = publcJenkisUri.getHost() // localhost
+    def path = publcJenkisUri.getPath() // /job/demoforum/job/feature%2Fcicd/25/display/redirect
+    def port = publcJenkisUri.getPort() // 10101
+    def query = publcJenkisUri.getQuery() // null
+    def scheme = publcJenkisUri.getScheme() // http
+    def userInfo = publcJenkisUri.getUserInfo() // null
+
+    def uri = new URI(scheme, userInfo, host, port, path, query, fragment).toString()
+
     step([
-            $class             : "GitHubCommitStatusSetter",
-            reposSource        : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
-            contextSource      : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"], // github에서 식별자. branch-rule, commit-status
-            errorHandlers      : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // 어디에 쓰이는건지 모름
-            statusResultSource : [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]//, // 결과 보여줌
-//            statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "http://svsrrmnzb2ckyh4576v4saelh1xrdq49.iptime.org:10101"]  // 뒤에 /blue/organizations/jenkins/demoforum/detail/feature%2Fcicd/14/pipeline 이런거 붙어야 함
+            $class            : "GitHubCommitStatusSetter",
+            reposSource       : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
+            contextSource     : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"], // github에서 식별자. branch-rule, commit-status
+            errorHandlers     : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // 어디에 쓰이는건지 모름
+            statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]//, // 결과 보여줌
+            statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: uri]
     ]);
 }
 
