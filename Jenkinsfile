@@ -20,13 +20,13 @@ void setBuildStatus(String message, String state) {
     def uri = new URI(scheme, userInfo, host, port, path, query, fragment).toString()
 
     step([
-            $class            : "GitHubCommitStatusSetter",
-            reposSource       : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
-            contextSource     : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"], // github에서 식별자. branch-rule, commit-status
-            errorHandlers     : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // 어디에 쓰이는건지 모름
-            statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]//, // 결과 보여줌
+            $class             : "GitHubCommitStatusSetter",
+            reposSource        : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
+            contextSource      : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"], // github에서 식별자. branch-rule, commit-status
+            errorHandlers      : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // 어디에 쓰이는건지 모름
+            statusResultSource : [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]], // 결과 보여줌
             statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: uri]
-    ]);
+    ])
 }
 
 pipeline {
@@ -50,11 +50,11 @@ pipeline {
     post {
         success {
             echo 'success'
-            setBuildStatus("Build complete", SUCCESS);
+            setBuildStatus("Build complete", SUCCESS)
         }
         failure {
             echo 'fail'
-            setBuildStatus("Build failed", FAILURE);
+            setBuildStatus("Build failed", FAILURE)
         }
         always {
             echo 'I will always execute this'
