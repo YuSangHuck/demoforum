@@ -1,29 +1,152 @@
-import javax.swing.plaf.metal.MetalFileChooserUI
-
 pipeline {
     agent any
+//    tools {
+//        terraform 'terraform'
+//    }
+//    environment {
+//        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+//        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+//        AWS_REGION = credentials('AWS_REGION')
+//    }
     stages {
-        stage('hello') {
+        stage('build') {
             steps {
-                sh 'echo hello world'
+                sh 'buildZip with gradle'
             }
-            post {
-                success {
-                    script {
-                        currentBuild.result = 'FAILURE'
-
+        }
+        stage('test') {
+            parallel {
+                stage('unit test') {
+                    steps {
+                        sh('echo "unit test"')
                     }
-
+                    post {
+//                        always {
+//                            echo 'One way or another, I have finished'
+//                            deleteDir() /* clean up our workspace */
+//                        }
+//                        success {
+//                            echo 'I succeeded!'
+//                        }
+                        unstable {
+                            script {
+                                currentBuild.result = 'UNSTABLE' // failure // test fail, code violation 등
+                            }
+                        }
+                        failure {
+                            script {
+                                currentBuild.result = 'FAILURE' // failure
+                            }
+                        }
+//                        changed {
+//                            echo 'Things were different before...'
+//                        }
+                    }
                 }
-
+                stage('integration test') {
+                    steps {
+                        sh('echo "integration test"')
+                    }
+                    post {
+//                        always {
+//                            echo 'One way or another, I have finished'
+//                            deleteDir() /* clean up our workspace */
+//                        }
+//                        success {
+//                            echo 'I succeeded!'
+//                        }
+                        unstable {
+                            script {
+                                currentBuild.result = 'UNSTABLE' // failure // test fail, code violation 등
+                            }
+                        }
+                        failure {
+                            script {
+                                currentBuild.result = 'FAILURE' // failure
+                            }
+                        }
+//                        changed {
+//                            echo 'Things were different before...'
+//                        }
+                    }
+                }
+                stage('e2e test') {
+                    steps {
+                        sh('echo "e2e test"')
+                    }
+                    post {
+//                        always {
+//                            echo 'One way or another, I have finished'
+//                            deleteDir() /* clean up our workspace */
+//                        }
+//                        success {
+//                            echo 'I succeeded!'
+//                        }
+                        unstable {
+                            script {
+                                currentBuild.result = 'UNSTABLE' // failure // test fail, code violation 등
+                            }
+                        }
+                        failure {
+                            script {
+                                currentBuild.result = 'FAILURE' // failure
+                            }
+                        }
+//                        changed {
+//                            echo 'Things were different before...'
+//                        }
+                    }
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                sh 'deploy with serverless'
             }
         }
     }
     post {
         always {
-            echo currentBuild.currentResult
-
+            setBuildStatus()
         }
-
     }
+}
+
+
+// currentBuild.result 기반 commit status 생성
+void setBuildStatus() {
+    def backref = createBackref()
+
+    step([
+            $class             : "GitHubCommitStatusSetter",
+            reposSource        : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
+            contextSource      : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+            errorHandlers      : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+            statusResultSource : [
+                    $class : 'ConditionalStatusResultSource',
+                    results: [
+                            [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: 'success'],
+                            [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: 'failure'],
+                            [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+                    ]
+            ],
+            statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: backref]
+    ])
+}
+
+String createBackref() {
+    String PUBLIC_JENKINS = 'http://svsrrmnzb2ckyh4576v4saelh1xrdq49.iptime.org:10101'
+    def host = new URI(PUBLIC_JENKINS).getHost()
+    String RUN_DISPLAY_URL = "${env.RUN_DISPLAY_URL}"
+    def publcJenkisUri = new URI(RUN_DISPLAY_URL)
+//    def authority = publcJenkisUri.getAuthority() // localhost:10101
+    def fragment = publcJenkisUri.getFragment() // null
+//    def host = publcJenkisUri.getHost() // localhost
+    def path = publcJenkisUri.getPath() // /job/demoforum/job/feature%2Fcicd/25/display/redirect
+    def port = publcJenkisUri.getPort() // 10101
+    def query = publcJenkisUri.getQuery() // null
+    def scheme = publcJenkisUri.getScheme() // http
+    def userInfo = publcJenkisUri.getUserInfo() // null
+
+    return new URI(scheme, userInfo, host, port, path, query, fragment).toString()
 }
