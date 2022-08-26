@@ -1,6 +1,6 @@
-//String ERROR = 'error'
+String ERROR = 'error'
 String FAILURE = 'failure'
-//String PENDING = 'pending'
+String PENDING = 'pending'
 String SUCCESS = 'success'
 
 void setBuildStatus(String message, String state) {
@@ -11,7 +11,29 @@ void setBuildStatus(String message, String state) {
             reposSource        : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
             contextSource      : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"], // github에서 식별자. branch-rule, commit-status
             errorHandlers      : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // 어디에 쓰이는건지 모름
+//            statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]], // 결과 보여줌
+            statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: backref]
+    ])
+}
+
+void setBuildStatusWithSha(String message, String state, String sha) {
+    def backref = createBackref()
+
+    step([
+            $class             : "GitHubCommitStatusSetter",
+            commitShaSource    : [$class: 'ManuallyEnteredShaSource', 'sha': sha],
+            reposSource        : [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/YuSangHuck/demoforum"],
+            contextSource      : [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"], // github에서 식별자. branch-rule, commit-status
+            errorHandlers      : [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // 어디에 쓰이는건지 모름
             statusResultSource : [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]], // 결과 보여줌
+            statusResultSource : [
+                    $class : 'ConditionalStatusResultSource',
+                    results: [
+                            [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: 'success'],
+                            [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: 'failure'],
+                            [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+                    ]
+            ],
             statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: backref]
     ])
 }
@@ -36,7 +58,7 @@ String createBackref() {
 pipeline {
     agent any
     tools {
-        terraform 'terraform'
+//        terraform 'terraform'
     }
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
@@ -47,26 +69,36 @@ pipeline {
         stage('setStatusSuccess') {
             steps {
                 echo 'setStatusSuccess'
-                sh 'printenv'
+//                sh 'printenv'
+//                echo currentBuild.result // SUCCESS, UNSTABLE, FAILURE
+//                echo currentBuild.currentResult
+//                echo currentBuild.resultIsBetterOrEqualTo('SUCCESS')
+//                echo currentBuild.resultIsBetterOrEqualTo('UNSTABLE')
+//                echo currentBuild.resultIsBetterOrEqualTo('FAILURE')
+            }
+            post {
+                script {
+                    currentBuild.result = FAILURE
+                }
             }
         }
     }
     post {
-        success {
-            echo 'success'
-            setBuildStatus("Build complete", SUCCESS)
-        }
-        failure {
-            echo 'fail'
-            setBuildStatus("Build failed", FAILURE)
-        }
+//        success {
+//            echo 'success'
+//            setBuildStatus("Build complete", SUCCESS)
+//        }
+//        failure {
+//            echo 'fail'
+//            setBuildStatus("Build failed", FAILURE)
+//        }
         always {
             echo 'I will always execute this'
+            echo currentBuild.currentResult
+//            setBuildStatusWithSha("Build ERROR", ERROR, '1dece08dda9afc26e6a6c3ae071ded439e9c0e16')
+//            setBuildStatusWithSha("Build FAILURE", FAILURE, '6e0e1e3bf32f4bd5260e95e7af649ed8d37dd4da')
+//            setBuildStatusWithSha("Build PENDING", PENDING, '4b671037c4de728d6e7064ccfa160d784fe0cb8b')
+//            setBuildStatusWithSha("Build SUCCESS", SUCCESS, 'b51de836792020381a7da654b50d0102f07f11cd')
         }
     }
 }
-
-//
-//- setBuildStatus 테스트
-//인자별 모든 케이스 구해서 각 케이스 별 sha 임의로 긁어서 jenkis에서 jenkinsfile 수정 후 run해서 github에서 어케나오는지 보기
-//failure인거 왜 그런지 확인
