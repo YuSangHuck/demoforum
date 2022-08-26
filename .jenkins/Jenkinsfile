@@ -4,11 +4,11 @@ pipeline {
 //        terraform 'terraform'
         gradle 'gradle'
     }
-//    environment {
-//        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
-//        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-//        AWS_REGION = credentials('AWS_REGION')
-//    }
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_REGION = credentials('AWS_REGION')
+    }
     options {
         parallelsAlwaysFailFast()
     }
@@ -42,8 +42,15 @@ pipeline {
             when {
                 branch 'dev'
             }
+            options{
+                skipDefaultCheckout()
+            }
+            environment{
+                PATH = "/var/jenkins_home/_lib/node-v16.17.0-linux-x64/bin:${env.PATH}"
+            }
             steps {
                 sh 'echo deploy with serverless'
+                sh 'serverless deploy'
             }
         }
     }
