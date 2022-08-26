@@ -8,98 +8,38 @@ pipeline {
 //        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
 //        AWS_REGION = credentials('AWS_REGION')
 //    }
+    options {
+        parallelsAlwaysFailFast()
+    }
     stages {
-        stage('build') {
-            steps {
-                sh 'echo buildZip with gradle'
-            }
-        }
         stage('test') {
             parallel {
                 stage('unit test') {
                     steps {
                         sh('echo "unit test"')
                     }
-                    post {
-//                        always {
-//                            echo 'One way or another, I have finished'
-//                            deleteDir() /* clean up our workspace */
-//                        }
-//                        success {
-//                            echo 'I succeeded!'
-//                        }
-                        unstable {
-                            script {
-                                currentBuild.result = 'UNSTABLE' // failure // test fail, code violation 등
-                            }
-                        }
-                        failure {
-                            script {
-                                currentBuild.result = 'FAILURE' // failure
-                            }
-                        }
-//                        changed {
-//                            echo 'Things were different before...'
-//                        }
-                    }
                 }
                 stage('integration test') {
                     steps {
                         sh('echo "integration test"')
-                    }
-                    post {
-//                        always {
-//                            echo 'One way or another, I have finished'
-//                            deleteDir() /* clean up our workspace */
-//                        }
-//                        success {
-//                            echo 'I succeeded!'
-//                        }
-                        unstable {
-                            script {
-                                currentBuild.result = 'UNSTABLE' // failure // test fail, code violation 등
-                            }
-                        }
-                        failure {
-                            script {
-                                currentBuild.result = 'FAILURE' // failure
-                            }
-                        }
-//                        changed {
-//                            echo 'Things were different before...'
-//                        }
                     }
                 }
                 stage('e2e test') {
                     steps {
                         sh('echo "e2e test"')
                     }
-                    post {
-//                        always {
-//                            echo 'One way or another, I have finished'
-//                            deleteDir() /* clean up our workspace */
-//                        }
-//                        success {
-//                            echo 'I succeeded!'
-//                        }
-                        unstable {
-                            script {
-                                currentBuild.result = 'UNSTABLE' // failure // test fail, code violation 등
-                            }
-                        }
-                        failure {
-                            script {
-                                currentBuild.result = 'FAILURE' // failure
-                            }
-                        }
-//                        changed {
-//                            echo 'Things were different before...'
-//                        }
-                    }
                 }
             }
         }
+        stage('build') {
+            steps {
+                sh 'echo buildZip with gradle'
+            }
+        }
         stage('deploy') {
+            when {
+                branch 'dev'
+            }
             steps {
                 sh 'echo deploy with serverless'
             }
@@ -107,6 +47,7 @@ pipeline {
     }
     post {
         always {
+            echo currentBuild.currentResult
             setBuildStatus()
         }
     }
