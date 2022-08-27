@@ -17,7 +17,7 @@ pipeline {
         stage('analysis') {
             parallel {
                 stage('SonarQube Analysis') {
-                    withSonarQubeEnv() {
+                    steps {
                         sh """gradle sonarqube \\
                             -Dsonar.host.url=http://localhost:9000 \\
                             -Dsonar.login=${env.SONARQUBE_TOKEN}
