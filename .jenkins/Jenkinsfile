@@ -8,11 +8,22 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_REGION = credentials('AWS_REGION')
+        SONARQUBE_TOKEN = credentials('SONARQUBE_TOKEN')
     }
     options {
         parallelsAlwaysFailFast()
     }
     stages {
+        stage('analysis') {
+            stage('SonarQube Analysis') {
+                withSonarQubeEnv() {
+                    sh """gradle sonarqube \\
+                            -Dsonar.host.url=http://localhost:9000 \\
+                            -Dsonar.login=${env.SONARQUBE_TOKEN}
+                        """
+                }
+            }
+        }
         stage('test') {
             parallel {
                 stage('unit test') {
