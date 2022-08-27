@@ -15,12 +15,14 @@ pipeline {
     }
     stages {
         stage('analysis') {
-            stage('SonarQube Analysis') {
-                withSonarQubeEnv() {
-                    sh """gradle sonarqube \\
+            parallel {
+                stage('SonarQube Analysis') {
+                    withSonarQubeEnv() {
+                        sh """gradle sonarqube \\
                             -Dsonar.host.url=http://localhost:9000 \\
                             -Dsonar.login=${env.SONARQUBE_TOKEN}
                         """
+                    }
                 }
             }
         }
@@ -53,10 +55,10 @@ pipeline {
             when {
                 branch 'master'
             }
-            options{
+            options {
                 skipDefaultCheckout()
             }
-            environment{
+            environment {
                 PATH = "/var/jenkins_home/_lib/node-v16.17.0-linux-x64/bin:${env.PATH}"
             }
             steps {
