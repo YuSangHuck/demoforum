@@ -40,7 +40,7 @@ pipeline {
         }
         stage('deploy') {
             when {
-                branch 'dev'
+                branch 'master'
             }
             options{
                 skipDefaultCheckout()
