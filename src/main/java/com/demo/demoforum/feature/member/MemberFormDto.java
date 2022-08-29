@@ -1,11 +1,14 @@
 package com.demo.demoforum.feature.member;
 
+import com.demo.demoforum.feature.authority.Authority;
 import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 public class MemberFormDto implements Serializable {
@@ -22,4 +25,11 @@ public class MemberFormDto implements Serializable {
     @NotEmpty(message = "이메일은 필수항목입니다.")
     @Email
     private final String email;
+
+    public Member toMember(PasswordEncoder passwordEncoder, Set<Authority> set) {
+        return Member.builder()
+                .password(passwordEncoder.encode(password1))
+                .authorities(set)
+                .build();
+    }
 }

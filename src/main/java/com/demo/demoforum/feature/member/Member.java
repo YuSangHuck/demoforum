@@ -2,17 +2,13 @@ package com.demo.demoforum.feature.member;
 
 import com.demo.demoforum.entity.BaseEntity;
 import com.demo.demoforum.feature.answer.Answer;
+import com.demo.demoforum.feature.authority.Authority;
 import com.demo.demoforum.feature.question.Question;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Builder
 @AllArgsConstructor
@@ -20,8 +16,8 @@ import java.util.Objects;
 @Getter
 @Entity
 @Table(uniqueConstraints = {
-        @UniqueConstraint(name = "uk_username",columnNames = {"username"}),
-        @UniqueConstraint(name = "uk_email",columnNames = {"email"})
+        @UniqueConstraint(name = "uk_username", columnNames = {"username"}),
+        @UniqueConstraint(name = "uk_email", columnNames = {"email"})
 })
 public class Member extends BaseEntity {
     @Id
@@ -44,6 +40,22 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "author")
     private final List<Answer> answers = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "member_authority",
+            joinColumns = {@JoinColumn(name = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name")}
+    )
+    private Set<Authority> authorities = new java.util.LinkedHashSet<>();
+
+    public void addAuthority(Authority authority) {
+        getAuthorities().add(authority);
+    }
+
+    public void removeAuthority(Authority authority) {
+        getAuthorities().remove(authority);
+    }
 
     @Override
     public boolean equals(Object o) {
