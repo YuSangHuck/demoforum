@@ -10,5 +10,7 @@ import lombok.Data;
 public class TokenRespDTO {
     private String grantType;
     private String accessToken;
+    private int accessTokenTime;
     private String refreshToken;
+    private int refreshTokenTime;
 }

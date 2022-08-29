@@ -74,7 +74,9 @@ public class TokenProvider {
     public TokenRespDTO createTokenDTO(String accessToken, String refreshToken) {
         return TokenRespDTO.builder()
                 .accessToken(accessToken)
+                .accessTokenTime((int) ACCESS_TOKEN_EXPIRE_TIME)
                 .refreshToken(refreshToken)
+                .refreshTokenTime((int) REFRESH_TOKEN_EXPIRE_TIME)
                 .grantType(BEARER_TYPE)
                 .build();
     }
