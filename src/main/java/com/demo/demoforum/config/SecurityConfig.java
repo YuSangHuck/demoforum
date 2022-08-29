@@ -1,6 +1,6 @@
 package com.demo.demoforum.config;
 
-import com.demo.demoforum.feature.user.UserSecurityService;
+import com.demo.demoforum.feature.member.MemberSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,18 +21,18 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-    private final UserSecurityService userSecurityService;
+    private final MemberSecurityService memberSecurityService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/users/signin")
+                .loginPage("/members/signin")
                 .defaultSuccessUrl("/")
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/users/signout"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/members/signout"))
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
         ;

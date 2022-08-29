@@ -2,8 +2,8 @@ package com.demo.demoforum.feature.answer;
 
 import com.demo.demoforum.feature.question.Question;
 import com.demo.demoforum.feature.question.QuestionService;
-import com.demo.demoforum.feature.user.SiteUser;
-import com.demo.demoforum.feature.user.UserService;
+import com.demo.demoforum.feature.member.Member;
+import com.demo.demoforum.feature.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +25,7 @@ import java.security.Principal;
 public class AnswerController {
     private final AnswerService answerService;
     private final QuestionService questionService;
-    private final UserService userService;
+    private final MemberService memberService;
 
     //    Principal: security가 제공하는 로그인한 유저정보
     //  @PreAuthorize("isAuthenticated()"): security에서 제공하는거같은데 dispatcher전에 filter에서 걸러지는듯?
@@ -34,12 +34,12 @@ public class AnswerController {
     public String create(@PathVariable Long id, @Valid AnswerFormDto answerFormDto,
                          BindingResult bindingResult, Model model, Principal principal) {
         Question question = questionService.getQuestion(id);
-        SiteUser siteUser = userService.searchUser(principal.getName());
+        Member member = memberService.searchMember(principal.getName());
         if (bindingResult.hasErrors()) {
             model.addAttribute("question", question);
             return "questions/detail";
         }
-        Answer answer = answerService.create(question, answerFormDto.getContent(), siteUser);
+        Answer answer = answerService.create(question, answerFormDto.getContent(), member);
         return String.format("redirect:/questions/detail/%s#answer_%d", id, answer.getId());
     }
 
@@ -90,8 +90,8 @@ public class AnswerController {
     @GetMapping("/vote/{id}")
     public String answerVote(@PathVariable Long id, Principal principal) {
         Answer answer = this.answerService.getAnswer(id);
-        SiteUser siteUser = this.userService.searchUser(principal.getName());
-        this.answerService.vote(answer, siteUser);
+        Member member = this.memberService.searchMember(principal.getName());
+        this.answerService.vote(answer, member);
         return String.format("redirect:/questions/detail/%s#answer_%d", answer.getQuestion().getId(), answer.getId());
     }
 }

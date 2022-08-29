@@ -1,4 +1,4 @@
-package com.demo.demoforum.feature.user;
+package com.demo.demoforum.feature.member;
 
 import com.demo.demoforum.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
+public class MemberService {
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
     public void join(String email, String password, String username) {
-        userRepository.save(
-                SiteUser.builder()
+        memberRepository.save(
+                Member.builder()
                         .email(email)
                         .password(passwordEncoder.encode(password))
                         .username(username)
@@ -21,8 +21,8 @@ public class UserService {
         );
     }
 
-    public SiteUser searchUser(String username) {
-        return userRepository.findByUsername(username).
-                orElseThrow(() -> new DataNotFoundException("siteuser not found"));
+    public Member searchMember(String username) {
+        return memberRepository.findByUsername(username).
+                orElseThrow(() -> new DataNotFoundException("member not found"));
     }
 }

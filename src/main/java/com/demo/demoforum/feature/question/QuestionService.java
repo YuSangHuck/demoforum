@@ -2,7 +2,7 @@ package com.demo.demoforum.feature.question;
 
 import com.demo.demoforum.exception.DataNotFoundException;
 import com.demo.demoforum.feature.answer.Answer;
-import com.demo.demoforum.feature.user.SiteUser;
+import com.demo.demoforum.feature.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -38,7 +38,7 @@ public class QuestionService {
         return questionRepository.findById(id).orElseThrow(() -> new DataNotFoundException("question not found"));
     }
 
-    public void create(String subject, String content, SiteUser author) {
+    public void create(String subject, String content, Member author) {
         questionRepository.save(Question.builder()
                 .subject(subject)
                 .content(content)
@@ -56,8 +56,8 @@ public class QuestionService {
         questionRepository.delete(question);
     }
 
-    public void vote(Question question, SiteUser siteUser) {
-        question.getVoter().add(siteUser);
+    public void vote(Question question, Member member) {
+        question.getVoter().add(member);
         this.questionRepository.save(question);
     }
 
@@ -69,9 +69,9 @@ public class QuestionService {
             @Override
             public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                Join<Question, Member> u1 = q.join("author", JoinType.LEFT);
                 Join<Question, Answer> a = q.join("answers", JoinType.LEFT);
-                Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT);
+                Join<Answer, Member> u2 = a.join("author", JoinType.LEFT);
                 return cb.or(cb.like(q.get("subject"), "%" + kw + "%"), // 제목
                         cb.like(q.get("content"), "%" + kw + "%"),      // 내용
                         cb.like(u1.get("username"), "%" + kw + "%"),    // 질문 작성자

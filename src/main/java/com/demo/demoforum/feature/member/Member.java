@@ -1,4 +1,4 @@
-package com.demo.demoforum.feature.user;
+package com.demo.demoforum.feature.member;
 
 import com.demo.demoforum.entity.BaseEntity;
 import com.demo.demoforum.feature.answer.Answer;
@@ -23,10 +23,10 @@ import java.util.Objects;
         @UniqueConstraint(name = "uk_username",columnNames = {"username"}),
         @UniqueConstraint(name = "uk_email",columnNames = {"email"})
 })
-public class SiteUser extends BaseEntity {
+public class Member extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "siteUser_id_generator")
-    @SequenceGenerator(name = "siteUser_id_generator", sequenceName = "siteUser_id_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_id_generator")
+    @SequenceGenerator(name = "member_id_generator", sequenceName = "member_id_sequence")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -49,8 +49,8 @@ public class SiteUser extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        SiteUser siteUser = (SiteUser) o;
-        return id != null && Objects.equals(id, siteUser.id);
+        Member member = (Member) o;
+        return id != null && Objects.equals(id, member.id);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.demo.demoforum.feature.user;
+package com.demo.demoforum.feature.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,35 +12,35 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/users")
-public class UserController {
-    private final UserService userService;
+@RequestMapping("/members")
+public class MemberController {
+    private final MemberService memberService;
 
     @GetMapping("/signup")
-    public String signupForm(UserFormDto userFormDto) {
-        return "users/signup_form";
+    public String signupForm(MemberFormDto memberFormDto) {
+        return "members/signup_form";
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid UserFormDto userFormDto, BindingResult bindingResult) {
+    public String signup(@Valid MemberFormDto memberFormDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "users/signup_form";
+            return "members/signup_form";
         }
-        if (!(userFormDto.getPassword1().equals(userFormDto.getPassword2()))) {
+        if (!(memberFormDto.getPassword1().equals(memberFormDto.getPassword2()))) {
             bindingResult.rejectValue("password2", "passwordIncorrect", "2개의 비밀번호가 일치하지 않습니다.");
-            return "users/signup_form";
+            return "members/signup_form";
         }
 
         try {
-            userService.join(userFormDto.getEmail(), userFormDto.getPassword1(), userFormDto.getUsername());
+            memberService.join(memberFormDto.getEmail(), memberFormDto.getPassword1(), memberFormDto.getUsername());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다");
-            return "users/signup_form";
+            return "members/signup_form";
         } catch (Exception e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
-            return "users/signup_form";
+            return "members/signup_form";
         }
 
         return "redirect:/";
@@ -48,6 +48,6 @@ public class UserController {
 
     @GetMapping("/signin")
     public String signForm() {
-        return "users/signin_form";
+        return "members/signin_form";
     }
 }

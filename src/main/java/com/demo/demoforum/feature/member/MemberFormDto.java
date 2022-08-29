@@ -1,4 +1,4 @@
-package com.demo.demoforum.feature.user;
+package com.demo.demoforum.feature.member;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Data
-public class UserFormDto implements Serializable {
+public class MemberFormDto implements Serializable {
     @Size(min = 3, max = 25)
     @NotEmpty(message = "사용자ID는 필수항목입니다.")
     private final String username;
