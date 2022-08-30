@@ -9,6 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -28,7 +29,21 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        if (request.getServletPath().startsWith("/auth")) {
+        String[] whiteList = {
+//                "/",
+                "/members/signin",
+                "/members/signup",
+                "/questions/list"
+        };
+        String servletPath = request.getServletPath();
+        boolean isWhite = false;
+        for (String s : whiteList) {
+            if (servletPath.startsWith(s)) {
+                isWhite = true;
+                break;
+            }
+        }
+        if (isWhite) {
             filterChain.doFilter(request, response);
         } else {
             String token = resolveToken(request);
@@ -75,13 +90,23 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     // Request Header 에서 토큰 정보를 꺼내오기
+//    FIXME mvc에서 broser에 cookie는 있는데 Authorization header를 못만들겠음
+//    정확히는 client에서 form 요청시 넣어줘야 하는데 그냥 server에서 처리해보자
     private String resolveToken(HttpServletRequest request) {
-        // bearer : 123123123123123 -> return 123123123123123123
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(7);
+        String accessToken = null;
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("accessToken")) {
+                accessToken = cookie.getValue();
+                break;
+            }
         }
-        return null;
+        return accessToken;
+//        // bearer : 123123123123123 -> return 123123123123123123
+//        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+//            return bearerToken.substring(7);
+//        }
+//        return null;
     }
 
 }

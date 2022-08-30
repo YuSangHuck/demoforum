@@ -1,5 +1,6 @@
 package com.demo.demoforum.config;
 
+import com.demo.demoforum.feature.jwt.JwtFilter;
 import com.demo.demoforum.feature.jwt.TokenProvider;
 import com.demo.demoforum.feature.member.MemberSecurityService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -73,8 +75,8 @@ public class SecurityConfig {
         // JwtFilter 를 등록한다.
         // UsernamePasswordAuthenticationFilter 앞에 등록하는 이유는 딱히 없지만
         // SecurityContext를 사용하기 때문에 앞단의 필터에서 SecurityContext가 설정되고 난뒤 필터를 둔다.
-//                .and()
-//                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .and()
+                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
         ;
 
         return http.build();

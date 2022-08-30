@@ -1,8 +1,12 @@
 package com.demo.demoforum.feature.member;
 
+import com.demo.demoforum.exception.AuthorityExceptionType;
 import com.demo.demoforum.exception.BaseExceptionType;
 import com.demo.demoforum.exception.BizException;
 import com.demo.demoforum.feature.auth.AuthService;
+import com.demo.demoforum.feature.authority.Authority;
+import com.demo.demoforum.feature.authority.AuthorityRepository;
+import com.demo.demoforum.feature.authority.UserAuth;
 import com.demo.demoforum.feature.jwt.TokenRespDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +29,7 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
     private final AuthService authService;
+    private final AuthorityRepository authorityRepository;
 
     @GetMapping("/signup")
     public String signupForm(MemberFormDto memberFormDto) {
@@ -40,7 +47,13 @@ public class MemberController {
         }
 
         try {
-            memberService.join(memberFormDto.getEmail(), memberFormDto.getPassword1(), memberFormDto.getUsername());
+            // DB 에서 ROLE_USER를 찾아서 권한으로 추가한다.
+            Authority authority = authorityRepository
+                    .findByAuthorityName(UserAuth.ROLE_USER)
+                    .orElseThrow(() -> new BizException(AuthorityExceptionType.NOT_FOUND_AUTHORITY));
+            Set<Authority> authorities = new HashSet<>();
+            authorities.add(authority);
+            memberService.join(memberFormDto.getEmail(), memberFormDto.getPassword1(), memberFormDto.getUsername(), authorities);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다");
