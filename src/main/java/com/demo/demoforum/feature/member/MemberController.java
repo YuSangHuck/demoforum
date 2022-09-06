@@ -83,6 +83,7 @@ public class MemberController {
             TokenRespDTO tokenRespDTO = authService.signin(signinDTO);
             //쿠키에 시간 정보를 주지 않으면 세션 쿠키(브라우저 종료시 모두 종료)
             Cookie accessToken = new Cookie("accessToken", tokenRespDTO.getAccessToken());
+            // FIXME MaxAge가 이상하다. 잘 살펴볼것
             accessToken.setMaxAge(tokenRespDTO.getAccessTokenTime());
             accessToken.setPath("/");
             response.addCookie(accessToken);

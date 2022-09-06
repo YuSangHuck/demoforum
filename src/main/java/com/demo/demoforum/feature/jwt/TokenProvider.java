@@ -100,6 +100,11 @@ public class TokenProvider {
         return new CustomEmailPasswordAuthToken(principal, "", authorities);
     }
 
+    /**
+     * token을 validate 한 결과를 반환
+     * @param token String
+     * @return 0: valid, 1: expired, 2: invalid
+     */
     public int validateToken(String token) {
         try {
             tokenToJws(token);
