@@ -1,8 +1,8 @@
 package com.demo.demoforum.feature.question;
 
 import com.demo.demoforum.feature.answer.AnswerFormDto;
-import com.demo.demoforum.feature.user.SiteUser;
-import com.demo.demoforum.feature.user.UserService;
+import com.demo.demoforum.feature.member.Member;
+import com.demo.demoforum.feature.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ import java.security.Principal;
 public class QuestionController {
 
     private final QuestionService questionService;
-    private final UserService userService;
+    private final MemberService memberService;
     private final String QUESTION_FORM = "questions/form";
     private final String QUESTION_LIST = "questions/list";
     private final String QUESTION_DETAIL = "questions/detail";
@@ -60,8 +60,8 @@ public class QuestionController {
         if (bindingResult.hasErrors()) {
             return QUESTION_FORM;
         }
-        SiteUser siteUser = userService.searchUser(principal.getName());
-        questionService.create(questionFormDto.getSubject(), questionFormDto.getContent(), siteUser);
+        Member member = memberService.searchMember(principal.getName());
+        questionService.create(questionFormDto.getSubject(), questionFormDto.getContent(), member);
         return REDIRECT + '/' + QUESTION_LIST;
     }
 
@@ -108,8 +108,8 @@ public class QuestionController {
     @GetMapping("/vote/{id}")
     public String questionVote(@PathVariable Long id, Principal principal) {
         Question question = this.questionService.getQuestion(id);
-        SiteUser siteUser = this.userService.searchUser(principal.getName());
-        this.questionService.vote(question, siteUser);
+        Member member = this.memberService.searchMember(principal.getName());
+        this.questionService.vote(question, member);
         return String.format("redirect:/questions/detail/%s", id);
     }
 }
