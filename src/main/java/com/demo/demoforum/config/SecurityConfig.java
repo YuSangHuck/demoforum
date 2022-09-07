@@ -54,6 +54,12 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
+                // FIXME requestCache 사용하려했는데 뭐가 잘 안됨.
+//                // RequestCache 설정
+//                // cookie로
+//                .and()
+//                .requestCache().requestCache(new CookieRequestCache())
+
                 // Authorization 설정. 위에서부터 순서대로
                 .and()
                 .authorizeRequests() // http servletRequest 를 사용하는 요청들에 대한 접근제한을 설정
