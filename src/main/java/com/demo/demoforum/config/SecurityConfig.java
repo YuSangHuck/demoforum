@@ -5,7 +5,6 @@ import com.demo.demoforum.feature.jwt.JwtAuthenticationEntryPoint;
 import com.demo.demoforum.feature.jwt.JwtFilter;
 import com.demo.demoforum.feature.jwt.TokenProvider;
 import com.demo.demoforum.feature.member.MemberSecurityService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,15 +18,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.savedrequest.CookieRequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private final MemberSecurityService memberSecurityService;
     private final TokenProvider tokenProvider;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    public SecurityConfig(MemberSecurityService memberSecurityService, TokenProvider tokenProvider, JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+        this.memberSecurityService = memberSecurityService;
+        this.tokenProvider = tokenProvider;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.jwtAuthenticationEntryPoint = new JwtAuthenticationEntryPoint("/members/signin");
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,8 +44,14 @@ public class SecurityConfig {
                 .csrf().disable()
 //                .csrfTokenRepository(new CookieCsrfTokenRepository()) // FIXME 이거떄문에 403 떳던거
 
+                // exception handling 할 때 우리가 만든 클래스를 추가
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler) // ExceptionTranslationFilter 에 지정된 AccessDeniedHandler 사용할까 했는데 custom 해도 무관할듯?
+
                 // 시큐리티는 기본적으로 세션을 사용
                 // 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 // Authorization 설정. 위에서부터 순서대로
@@ -72,7 +86,7 @@ public class SecurityConfig {
 //        private LinkedHashMap<RequestMatcher, LogoutSuccessHandler> defaultLogoutSuccessHandlerMappings = new LinkedHashMap();
                 .logoutRequestMatcher(new AntPathRequestMatcher("/members/signout")) // 404
                 .deleteCookies("accessToken", "refreshToken") // cookie 삭제
-                .clearAuthentication(true) // SecurityContextHolder 에서 authentication 제거 
+                .clearAuthentication(true) // SecurityContextHolder 에서 authentication 제거
                 .logoutSuccessUrl("/") // 성공시 /로 redirect
 
                 // JwtFilter 를 등록한다.
