@@ -2,7 +2,7 @@ package com.demo.demoforum.feature.answer;
 
 import com.demo.demoforum.entity.BaseEntity;
 import com.demo.demoforum.feature.question.Question;
-import com.demo.demoforum.feature.user.SiteUser;
+import com.demo.demoforum.feature.member.Member;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -34,7 +34,7 @@ public class Answer extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_answer_to_author"))
-    private SiteUser author;
+    private Member author;
 
     //    FIXME 다대다 => 일대다,다대일
 //    FIXME vote의 type으로 supertype(부모), subtype(자식) 구분지을것
@@ -42,7 +42,7 @@ public class Answer extends BaseEntity {
     @JoinTable(name = "answer_voter",
             joinColumns = @JoinColumn(name = "answer_id"),
             inverseJoinColumns = @JoinColumn(name = "voter_id"))
-    private final Set<SiteUser> voter = new LinkedHashSet<>();
+    private final Set<Member> voter = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

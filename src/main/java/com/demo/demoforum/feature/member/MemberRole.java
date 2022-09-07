@@ -1,15 +1,15 @@
-package com.demo.demoforum.feature.user;
+package com.demo.demoforum.feature.member;
 
 import lombok.Getter;
 
 @Getter
-public enum UserRole {
+public enum MemberRole {
     ADMIN("ROLE_ADMIN"),
     USER("ROLE_USER");
 
     private final String value;
 
-    UserRole(String value) {
+    MemberRole(String value) {
         this.value = value;
     }
 }

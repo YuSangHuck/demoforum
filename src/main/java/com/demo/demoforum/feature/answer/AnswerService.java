@@ -2,7 +2,7 @@ package com.demo.demoforum.feature.answer;
 
 import com.demo.demoforum.exception.DataNotFoundException;
 import com.demo.demoforum.feature.question.Question;
-import com.demo.demoforum.feature.user.SiteUser;
+import com.demo.demoforum.feature.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-    public Answer create(Question question, String content, SiteUser author) {
+    public Answer create(Question question, String content, Member author) {
         Answer answer = Answer.builder()
                 .content(content)
                 .question(question)
@@ -34,8 +34,8 @@ public class AnswerService {
         this.answerRepository.delete(answer);
     }
 
-    public void vote(Answer answer, SiteUser siteUser) {
-        answer.getVoter().add(siteUser);
+    public void vote(Answer answer, Member member) {
+        answer.getVoter().add(member);
         this.answerRepository.save(answer);
     }
 }
