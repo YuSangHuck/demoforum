@@ -7,6 +7,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-logging:
-  level:
-    org.apache.coyote.http11: info
+  boot:
+    admin:
+      client:
+        url: 'http://svsrrmnzb2ckyh4576v4saelh1xrdq49.iptime.org:11111'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+jwt:
+  header: Authorization
+  secret: aGVsbG8tbXktcmVhbC1uYW1lLWlzLXdvbmp1bi10aGlzLWtleS1pcy12ZXJ5LWltcG9ydGFudC1zby1iZS1jYXJlZnVsLXRoYW5rLXlvdQ==
+  access-token-expire-time: 1800000
+  refresh-token-expire-time: 604800000
