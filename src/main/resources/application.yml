@@ -7,9 +7,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  boot:
+    admin:
+      client:
+        url: 'http://localhost:11111'
 logging:
   level:
     org.apache.coyote.http11: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 jwt:
   header: Authorization
