@@ -1,6 +1,8 @@
-package com.demo.demoforum.domain.jwt;
+package com.demo.demoforum.global.security.jwt.util;
 
 import com.demo.demoforum.domain.auth.entity.Authority;
+import com.demo.demoforum.global.security.jwt.authentication.CustomEmailPasswordAuthToken;
+import com.demo.demoforum.global.security.jwt.dto.TokenRespDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

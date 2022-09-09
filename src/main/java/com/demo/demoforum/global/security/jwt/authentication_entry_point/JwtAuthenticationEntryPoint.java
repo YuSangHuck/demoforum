@@ -1,4 +1,4 @@
-package com.demo.demoforum.domain.jwt;
+package com.demo.demoforum.global.security.jwt.authentication_entry_point;
 
 
 import lombok.extern.slf4j.Slf4j;

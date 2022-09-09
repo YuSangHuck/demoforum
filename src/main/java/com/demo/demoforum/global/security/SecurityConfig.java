@@ -1,10 +1,10 @@
 package com.demo.demoforum.global.security;
 
 import com.demo.demoforum.domain.auth.service.MemberSecurityService;
-import com.demo.demoforum.domain.jwt.JwtAccessDeniedHandler;
-import com.demo.demoforum.domain.jwt.JwtAuthenticationEntryPoint;
-import com.demo.demoforum.domain.jwt.JwtFilter;
-import com.demo.demoforum.domain.jwt.TokenProvider;
+import com.demo.demoforum.global.security.jwt.access_denied_handler.JwtAccessDeniedHandler;
+import com.demo.demoforum.global.security.jwt.authentication_entry_point.JwtAuthenticationEntryPoint;
+import com.demo.demoforum.global.security.jwt.filter.JwtFilter;
+import com.demo.demoforum.global.security.jwt.util.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

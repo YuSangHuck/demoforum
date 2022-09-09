@@ -2,10 +2,10 @@ package com.demo.demoforum.domain.auth.controller;
 
 import com.demo.demoforum.domain.auth.dto.SigninDTO;
 import com.demo.demoforum.domain.auth.service.AuthService;
-import com.demo.demoforum.domain.jwt.TokenReqDTO;
-import com.demo.demoforum.domain.jwt.TokenRespDTO;
 import com.demo.demoforum.domain.member.dto.MemberFormDto;
 import com.demo.demoforum.domain.member.dto.MemberRespDTO;
+import com.demo.demoforum.global.security.jwt.dto.TokenReqDTO;
+import com.demo.demoforum.global.security.jwt.dto.TokenRespDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

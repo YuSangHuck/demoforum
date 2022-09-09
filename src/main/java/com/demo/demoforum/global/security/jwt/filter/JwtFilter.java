@@ -1,5 +1,6 @@
-package com.demo.demoforum.domain.jwt;
+package com.demo.demoforum.global.security.jwt.filter;
 
+import com.demo.demoforum.global.security.jwt.util.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

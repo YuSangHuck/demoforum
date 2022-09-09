@@ -1,4 +1,4 @@
-package com.demo.demoforum.domain.jwt.exception;
+package com.demo.demoforum.global.security.jwt.exception;
 
 import com.demo.demoforum.global.exception.BaseExceptionType;
 import lombok.Getter;

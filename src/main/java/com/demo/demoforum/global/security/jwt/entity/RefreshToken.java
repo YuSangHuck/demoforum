@@ -1,4 +1,4 @@
-package com.demo.demoforum.domain.jwt;
+package com.demo.demoforum.global.security.jwt.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

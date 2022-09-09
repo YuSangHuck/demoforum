@@ -1,4 +1,4 @@
-package com.demo.demoforum.domain.jwt;
+package com.demo.demoforum.global.security.jwt.access_denied_handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
