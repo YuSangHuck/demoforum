@@ -1,5 +1,6 @@
-package com.demo.demoforum.global.exception;
+package com.demo.demoforum.domain.member.exception;
 
+import com.demo.demoforum.global.exception.BaseExceptionType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

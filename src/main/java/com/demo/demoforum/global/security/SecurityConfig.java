@@ -1,4 +1,4 @@
-package com.demo.demoforum.global.config;
+package com.demo.demoforum.global.security;
 
 import com.demo.demoforum.domain.auth.service.MemberSecurityService;
 import com.demo.demoforum.domain.jwt.JwtAccessDeniedHandler;

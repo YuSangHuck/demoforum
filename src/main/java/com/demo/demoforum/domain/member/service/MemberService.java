@@ -2,8 +2,9 @@ package com.demo.demoforum.domain.member.service;
 
 import com.demo.demoforum.domain.auth.entity.Authority;
 import com.demo.demoforum.domain.member.entity.Member;
+import com.demo.demoforum.domain.member.exception.MemberExceptionType;
 import com.demo.demoforum.domain.member.repository.MemberRepository;
-import com.demo.demoforum.global.exception.DataNotFoundException;
+import com.demo.demoforum.global.exception.BizException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,6 @@ public class MemberService {
 
     public Member searchMember(String username) {
         return memberRepository.findByUsername(username).
-                orElseThrow(() -> new DataNotFoundException("member not found"));
+                orElseThrow(() -> new BizException(MemberExceptionType.NOT_FOUND_MEMBER));
     }
 }

@@ -1,10 +1,11 @@
 package com.demo.demoforum.domain.answer.service;
 
 import com.demo.demoforum.domain.answer.entity.Answer;
+import com.demo.demoforum.domain.answer.exception.AnswerExceptionType;
 import com.demo.demoforum.domain.answer.repository.AnswerRepository;
 import com.demo.demoforum.domain.member.entity.Member;
 import com.demo.demoforum.domain.question.entity.Question;
-import com.demo.demoforum.global.exception.DataNotFoundException;
+import com.demo.demoforum.global.exception.BizException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class AnswerService {
 
     //FIXME exception 문자열 변수로
     public Answer getAnswer(Long id) {
-        return answerRepository.findById(id).orElseThrow(() -> new DataNotFoundException("answer not found"));
+        return answerRepository.findById(id).orElseThrow(() -> new BizException(AnswerExceptionType.NOT_FOUND_ANSWER));
     }
 
     public void modify(Answer answer, String content) {

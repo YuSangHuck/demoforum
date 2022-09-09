@@ -3,8 +3,9 @@ package com.demo.demoforum.domain.question.service;
 import com.demo.demoforum.domain.answer.entity.Answer;
 import com.demo.demoforum.domain.member.entity.Member;
 import com.demo.demoforum.domain.question.entity.Question;
+import com.demo.demoforum.domain.question.exception.QuestionExceptionType;
 import com.demo.demoforum.domain.question.repository.QuestionRepository;
-import com.demo.demoforum.global.exception.DataNotFoundException;
+import com.demo.demoforum.global.exception.BizException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public class QuestionService {
     }
 
     public Question getQuestion(Long id) {
-        return questionRepository.findById(id).orElseThrow(() -> new DataNotFoundException("question not found"));
+        return questionRepository.findById(id).orElseThrow(() -> new BizException(QuestionExceptionType.NOT_FOUND_QUESTION));
     }
 
     public void create(String subject, String content, Member author) {

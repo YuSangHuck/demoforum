@@ -1,8 +1,8 @@
 package com.demo.demoforum.domain.jwt;
 
 import com.demo.demoforum.domain.auth.service.MemberSecurityJwtService;
+import com.demo.demoforum.domain.member.exception.MemberExceptionType;
 import com.demo.demoforum.global.exception.BizException;
-import com.demo.demoforum.global.exception.MemberExceptionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
