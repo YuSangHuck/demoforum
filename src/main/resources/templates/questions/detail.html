@@ -7,16 +7,16 @@
 <head>
     <title>질문 상세</title>
 </head>
-<div layout:fragment="content" class="container my-3">
+<div class="container my-3" layout:fragment="content">
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
     <!--    TODO 여기에 작성자, 작성일, 수정일-->
     <!--    TODO 수정일, 삭제일?-->
     <div class="card my-3">
         <div class="card-body">
-            <div class="card-text" th:utext="${@commonUtil.markdown(question.content)}"></div>
+            <div class="card-text" th:utext="${@editorUtil.markdown(question.content)}"></div>
             <div class="d-flex justify-content-end">
-                <div th:if="${question.lastModifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <div class="badge bg-light text-dark p-2 text-start mx-3" th:if="${question.lastModifiedDate != null}">
                     <div class="mb-2">modified at</div>
                     <div th:text="${#temporals.format(question.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
@@ -27,18 +27,18 @@
                 </div>
             </div>
             <div class="my-3">
-<!--                 TODO: 추천취소기능이 없네?-->
-                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                <!--                 TODO: 추천취소기능이 없네?-->
+                <a class="recommend btn btn-sm btn-outline-secondary" href="javascript:void(0);"
                    th:data-uri="@{|/questions/vote/${question.id}|}">
                     추천
                     <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
                 </a>
-                <a th:href="@{|/questions/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated()"
+                <a class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   th:href="@{|/questions/modify/${question.id}|}"
                    th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
                    th:text="수정"></a>
-                <a href="javascript:void(0);" th:data-uri="@{|/questions/delete/${question.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                <a class="delete btn btn-sm btn-outline-secondary" href="javascript:void(0);"
+                   sec:authorize="isAuthenticated()" th:data-uri="@{|/questions/delete/${question.id}|}"
                    th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
                    th:text="삭제"></a>
             </div>
@@ -51,9 +51,9 @@
     <div class="card my-3" th:each="answer : ${question.answers}">
         <a th:id="|answer_${answer.id}|"></a>
         <div class="card-body">
-            <div class="card-text" th:utext="${@commonUtil.markdown(answer.content)}"></div>
+            <div class="card-text" th:utext="${@editorUtil.markdown(answer.content)}"></div>
             <div class="d-flex justify-content-end">
-                <div th:if="${answer.lastModifiedDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <div class="badge bg-light text-dark p-2 text-start mx-3" th:if="${answer.lastModifiedDate != null}">
                     <div class="mb-2">modified at</div>
                     <div th:text="${#temporals.format(answer.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
@@ -65,17 +65,17 @@
                 </div>
             </div>
             <div class="my-3">
-                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                <a class="recommend btn btn-sm btn-outline-secondary" href="javascript:void(0);"
                    th:data-uri="@{|/answers/vote/${answer.id}|}">
                     추천
                     <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
                 </a>
-                <a th:href="@{|/answers/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated()"
+                <a class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   th:href="@{|/answers/modify/${answer.id}|}"
                    th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
                    th:text="수정"></a>
-                <a href="javascript:void(0);" th:data-uri="@{|/answers/delete/${answer.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                <a class="delete btn btn-sm btn-outline-secondary" href="javascript:void(0);"
+                   sec:authorize="isAuthenticated()" th:data-uri="@{|/answers/delete/${answer.id}|}"
                    th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
                    th:text="삭제"></a>
             </div>
@@ -83,14 +83,14 @@
     </div>
     <!-- 답변 반복 끝  -->
     <!-- 답변 작성 -->
-    <form th:action="@{|/answers/create/${question.id}|}" th:object="${answerFormDto}" method="post" class="my-3">
+    <form class="my-3" method="post" th:action="@{|/answers/create/${question.id}|}" th:object="${answerFormDto}">
         <div th:replace="common/form_errors :: formErrorsFragment"></div>
         <label for="content"></label>
-        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" name="content" rows="10"
-                  class="form-control"></textarea>
-        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" name="content" rows="10"
-                  class="form-control"></textarea>
-        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+        <textarea class="form-control" disabled name="content" rows="10" sec:authorize="isAnonymous()"
+                  th:field="*{content}"></textarea>
+        <textarea class="form-control" name="content" rows="10" sec:authorize="isAuthenticated()"
+                  th:field="*{content}"></textarea>
+        <input class="btn btn-primary my-2" type="submit" value="답변등록">
     </form>
 </div>
 <script layout:fragment="script" type='text/javascript'>
@@ -103,11 +103,12 @@
         });
     });
     const recommend_elements = document.getElementsByClassName("recommend");
-    Array.from(recommend_elements).forEach(function(element) {
-        element.addEventListener('click', function() {
-            if(confirm("정말로 추천하시겠습니까?")) {
+    Array.from(recommend_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("정말로 추천하시겠습니까?")) {
                 location.href = this.dataset.uri;
-            };
+            }
+            ;
         });
     });
 </script>
